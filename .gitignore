@@ -1,0 +1,11 @@
+App
+icon.icns
+build
+node_modules
+
+test/out
+test/media
+
+assets/test
+assets/music
+assets/se
