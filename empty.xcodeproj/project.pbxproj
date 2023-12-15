@@ -40,6 +40,7 @@
 		931D7DB12B07BE68006443DF /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 931D7DA82B07BE68006443DF /* Animation.cpp */; };
 		931D7DB22B07BE68006443DF /* image_process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 931D7DA92B07BE68006443DF /* image_process.cpp */; };
 		931D7DB32B07BE68006443DF /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 931D7DAC2B07BE68006443DF /* Player.cpp */; };
+		937850E42B2CB9AB00780068 /* Blackhole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937850DE2B2CB9AB00780068 /* Blackhole.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,12 @@
 		931D7DAE2B07BE68006443DF /* AnimationManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationManager.hpp; sourceTree = "<group>"; };
 		931D7DAF2B07BE68006443DF /* image_process.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = image_process.hpp; sourceTree = "<group>"; };
 		931D7DB02B07BE68006443DF /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
+		937850DE2B2CB9AB00780068 /* Blackhole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blackhole.cpp; sourceTree = "<group>"; };
+		937850DF2B2CB9AB00780068 /* Blackhole.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Blackhole.hpp; sourceTree = "<group>"; };
+		937850E02B2CB9AB00780068 /* RunDustEffect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunDustEffect.hpp; sourceTree = "<group>"; };
+		937850E12B2CB9AB00780068 /* BlackHoleEffect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlackHoleEffect.hpp; sourceTree = "<group>"; };
+		937850E22B2CB9AB00780068 /* bubble.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bubble.hpp; sourceTree = "<group>"; };
+		937850E32B2CB9AB00780068 /* Spark.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spark.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +154,12 @@
 		2C1778981CE0AA7C00BB8AD0 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				937850DE2B2CB9AB00780068 /* Blackhole.cpp */,
+				937850DF2B2CB9AB00780068 /* Blackhole.hpp */,
+				937850E12B2CB9AB00780068 /* BlackHoleEffect.hpp */,
+				937850E22B2CB9AB00780068 /* bubble.hpp */,
+				937850E02B2CB9AB00780068 /* RunDustEffect.hpp */,
+				937850E32B2CB9AB00780068 /* Spark.hpp */,
 				931D7DA82B07BE68006443DF /* Animation.cpp */,
 				931D7DAA2B07BE68006443DF /* Animation.hpp */,
 				931D7DAE2B07BE68006443DF /* AnimationManager.hpp */,
@@ -263,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				937850E42B2CB9AB00780068 /* Blackhole.cpp in Sources */,
 				931D7DB32B07BE68006443DF /* Player.cpp in Sources */,
 				931D7DB22B07BE68006443DF /* image_process.cpp in Sources */,
 				931D7DB12B07BE68006443DF /* Animation.cpp in Sources */,

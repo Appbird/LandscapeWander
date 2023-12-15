@@ -2,8 +2,6 @@
 #include "bubble.hpp"
 #include "RunDustEffect.hpp"
 
-// COMPLETE #TODO 降りている最中にジャンプできなくなる問題
-
 static constexpr double gravity = 9.8;
 
 static double sq(const double x) {
@@ -21,13 +19,16 @@ bool Player::is_jumping() const {
     return p_state_ == S_Jump or p_state_ == S_Fall;
 }
 bool Player::is_movable() const {
-    return is_runnable() or p_state_ == S_Jump or p_state_ == S_Fall;
+    return (is_runnable() or p_state_ == S_Jump or p_state_ == S_Fall) and controllable_state;
 }
 bool Player::is_runnable() const {
     return p_state_ == S_Running or p_state_ == S_Waiting;
 }
 bool Player::is_on_ground() const {
     return touched_ground != nullptr;
+}
+bool Player::is_sliding() const {
+    return p_state_ == S_Sliding;
 }
 
 AnimationsManager<PlayerAnimationState> Player::prepare_animation() {
@@ -60,12 +61,20 @@ AnimationsManager<PlayerAnimationState> Player::prepare_animation() {
             .set_loop(false)
             .set_interval({5, 8})
         },
+        { 
+            Sliding,  
+            Animation{jump,  0.1, {64, 64}, {4, 2} }
+            .set_loop(false)
+            .set_interval({5, 8})
+        },
     }};
 }
 
 
 
-static int interpret_movement_direction(bool is_movable) {
+static int interpret_movement_direction(bool should_running) {
+    return (should_running) ? 1 : 0;
+    /*
     if (is_movable) {
         if (KeyLeft.pressed()) {
             return -1;
@@ -74,13 +83,25 @@ static int interpret_movement_direction(bool is_movable) {
         }
     }
     return 0;
+    */
+}
+static Vec2 interpret_jump_direction() {
+    
+    if (KeyRight.pressed() and KeyUp.pressed()) { return {1/sqrt(2), -1/sqrt(2)}; }
+    if (KeyRight.pressed()) { return {1, 0}; }
+    if (KeyUp.pressed())   { return {0, -1}; }
+    return {0, 0};
 }
 
 void Player::update(Effect& effect) {
     const InputInfo input {
-        interpret_movement_direction(is_movable()),
+        interpret_movement_direction(should_running),
+        interpret_jump_direction(),
         KeySpace.pressed()
     };
+    if (not starting_pose_stopwatch.isStarted()) {
+        starting_pose_stopwatch.start();
+    }
     if (is_movable()) {
         if (input.direction == -1) {
             looking_direction_ = LD_LEFT;
@@ -91,13 +112,14 @@ void Player::update(Effect& effect) {
 
     on_always(input);
     // #FIXED ジャンプができない
+    if (is_sliding())   { on_sliding(input); }
     if (is_movable())   { on_movable(input);  }
-    if (is_runnable())  { on_runnable(input, effect); }
+    if (is_runnable())  { on_runnable(input); }
     if (is_on_ground()) { on_ground(input);   } else { on_in_air(input); }
 
     switch (p_state_) {
         case S_Prepare_Jump:
-            on_jump_start(input, effect);
+            on_jump_start(input);
             break;
         case S_Landing:
             on_landing(input);
@@ -108,6 +130,7 @@ void Player::update(Effect& effect) {
     transform_.position += transform_.velocity * Scene::DeltaTime();
     transform_.velocity += transform_.accelelation * Scene::DeltaTime();
     animation_.update(Scene::DeltaTime());
+
 }
 
 
@@ -136,25 +159,48 @@ void Player::draw() const{
         .resized(character_size_)
         .mirrored(looking_direction_ == LD_LEFT)
         .drawAt(transform_.position);
+    effect.update();
+
+    if (starting_pose_stopwatch.sF() <= starting_pose_period) {
+        const HSV charged_color{20, 30};
+        Circle(transform_.position, (1 - EaseInSine(starting_pose_stopwatch.sF()/starting_pose_period))*character_size_.x*3)
+            .drawFrame(0.2, ColorF{charged_color, 1.0});
+    }
+
+    // チャージ状態の図示
+    {
+        const double p = EaseInCirc(charged);
+        const double opacity = (is_sliding()) ? 0.5 : (0.1 + p * 0.4);
+        const double min_radius = 0.2;
+        const double radius_proportion = (abs(charged - 1) > 1e-6) ?
+            ((1 - min_radius)*(1 - p) + min_radius)
+            : (min_radius + 0.03 * sin(2 * Math::Pi /2 * Scene::Time()));
+        const HSV charged_color{60 * (1 - p), 30};
+        
+        Circle(transform_.position, radius_proportion*character_size_.x*3)
+            .drawFrame(0.2, ColorF{charged_color, opacity});
+    }
+    
 }
 
 
 
 void Player::on_always(const InputInfo& input) {
     transform_.accelelation = {0, 0};
-    transform_.accelelation += - 0.3 * transform_.velocity;
+    transform_.accelelation += - 0.2 * transform_.velocity;
     transform_.accelelation += Vec2{0, gravity};
 }
 
-void Player::on_jump_start(const InputInfo& input, Effect& effect) {
+void Player::on_jump_start(const InputInfo& input) {
     if (animation_.current_animation().arrive_at_end()) {
-        jump_se.play();
+        if (charged > 0.5) { rocket_se.play(); } else { jump_se.play(); }
         // 走る速度に応じてジャンプの勢いを変えるようにする。
-        const double momentum_coef = (running_momentum_percent() * 0.4 + 0.6);
-        transform_.velocity.y = -jump_velocity_max * momentum_coef;
+        const double momentum_coef = charged;
+        charged *= 0.6;
+        transform_.velocity =  momentum_coef * (jump_velocity_max * input.jumping_direction + Vec2{0, -7});
         p_state_ = S_Jump;
         on_start_off_ground(input);
-        effect.add<BubbleEffect>(this->foot_point(), momentum_coef);
+        effect.add<BubbleEffect>(this->foot_point(), momentum_coef*3);
     }
 }
 
@@ -164,12 +210,28 @@ void Player::on_start_off_ground(const InputInfo& input) {
 }
 
 void Player::on_in_air(const InputInfo& input) {
-    if (transform_.velocity.y > gravity / 10) {
-        animation_.change_animation_ignorable(Jumping_Down);
+    if (p_state_ != S_Charged_in_Air and p_state_ != S_Prepare_Jump) {
+        if (transform_.velocity.y > gravity / 10) {
+            animation_.change_animation_ignorable(Jumping_Down);
+        }
+        if (transform_.velocity.y > gravity / 10) {
+            p_state_ = S_Fall;
+        }
     }
-    if (transform_.velocity.y > gravity / 10) {
-        p_state_ = S_Fall;
+    if (input.jump_pressed) {
+        p_state_ = S_Charged_in_Air;
+        on_brake(move_speed_ * 0.8, 0.2);
+        occur_rundust_effect(0.3);
     }
+    if (p_state_ == S_Charged_in_Air and not input.jump_pressed) {
+        if (not input.jumping_direction.isZero()) {
+            p_state_ = S_Prepare_Jump;
+            animation_.change_animation(Jumping_Up);
+        } else {
+            p_state_ = S_Jump;
+        }
+    }
+    
 }
 
 double Player::running_momentum_percent() const {
@@ -182,9 +244,11 @@ void Player::on_ground(const InputInfo& input) {
         p_state_ = S_Landing;
         animation_.change_animation(Landing);
     }
-    if (input.jump_pressed and p_state_ != S_Prepare_Jump) {
-        p_state_ = S_Prepare_Jump;
-        animation_.change_animation(Jumping_Up);
+    if (input.jump_pressed and p_state_ != S_Sliding) {
+        p_state_ = S_Sliding;
+        animation_.change_animation(Sliding);
+        sliding_se.play();
+        run_se.stop();
         animation_.change_spf((1 - running_momentum_percent() * 0.6) * 0.08);
     }
     
@@ -208,7 +272,7 @@ void Player::on_landing(const InputInfo& input) {
 
 // 実写とCGアニメ
 
-void Player::on_runnable(const InputInfo& input, Effect& effect) {
+void Player::on_runnable(const InputInfo& input) {
     if (p_state_ != S_Waiting and input.direction == 0) {
         run_se.stop();
         p_state_ = S_Waiting;
@@ -222,15 +286,6 @@ void Player::on_runnable(const InputInfo& input, Effect& effect) {
     if (p_state_ == S_Running and abs(transform_.velocity.x) > 1e-6) { 
         run_se.setSpeed((running_momentum_percent() * 0.6 + 0.4));
         animation_.change_spf((1 - running_momentum_percent() * 0.6) * 0.08);
-        
-        rundust_time += Scene::DeltaTime();
-        if (rundust_time > rundust_interval_time) {
-            rundust_time -= rundust_interval_time;
-            effect.add<RunDustEffect>(
-                transform_.position + Vec2{0, character_size_.y / 2},
-                sign(transform_.velocity.x)
-            );
-        }
     }
 }
 
@@ -253,6 +308,43 @@ void Player::on_movable(const InputInfo& input) {
     if (abs(transform_.velocity.x) <= 1e-6) { transform_.velocity.x = 0; }
 }
 
+void Player::on_sliding(const InputInfo& info) {
+    if (not info.jump_pressed) {
+        if (info.jumping_direction != Vec2::Zero()) {
+            p_state_ = S_Prepare_Jump;
+            animation_.change_animation(Jumping_Up);
+            animation_.change_spf((1 - running_momentum_percent() * 0.6) * 0.08);
+        } else {
+            p_state_ = S_Waiting;
+            animation_.change_animation(Waiting);
+        }
+    }
+    on_brake(move_speed_ * 0.2, 0.6);
+
+    // 土埃エフェクト
+    occur_rundust_effect(0.1);
+}
+
+void Player::on_brake(const double deacc_coef, const double charged_coef) {
+    transform_.velocity.x -= deacc_coef * Scene::DeltaTime() * sign(transform_.velocity.x);
+    charged = Min(charged + charged_coef * Scene::DeltaTime(), 1.0);
+}
+
+void Player::stop_running() {
+    should_running = false;
+    transform_.velocity.x = 0;
+}
+
+void Player::occur_rundust_effect(const double rundust_interval_time) {
+    rundust_time += Scene::DeltaTime();
+    if (rundust_time > rundust_interval_time && abs(transform_.velocity.x) > 4.0) {
+        rundust_time -= rundust_interval_time;
+        effect.add<RunDustEffect>(
+            transform_.position + Vec2{0, character_size_.y / 2},
+            sign(transform_.velocity.x)
+        );
+    }
+}
 
 Line Player::collision_line() const {
     Vec2 half_line{ 0, character_size_.y / 2 };
@@ -261,7 +353,7 @@ Line Player::collision_line() const {
 
 Line Player::landing_raycast() const {
     Vec2 half_size{ 0, character_size_.y / 2 *  1 / 2 };
-    Vec2 delta_size{ 0, character_size_.y / 3 };
+    Vec2 delta_size{ 0, character_size_.y };
     const Vec2 begin_point = transform_.position + half_size;
 
     return Line{begin_point, begin_point + delta_size};
@@ -269,4 +361,12 @@ Line Player::landing_raycast() const {
 Vec2 Player::foot_point() const {
     Vec2 half_size{ 0, character_size_.y / 2};
     return transform_.position + half_size;
+}
+
+
+RectF Player::collision_box() const {
+    return {
+        transform_.position - character_size_/2,
+        character_size_
+    };
 }
