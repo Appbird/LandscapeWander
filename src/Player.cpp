@@ -178,7 +178,7 @@ void Player::draw() const{
         const HSV charged_color{60 * (1 - p), 30};
         
         Circle(transform_.position, radius_proportion*character_size_.x*3)
-            .drawFrame(0.2, ColorF{charged_color, opacity});
+            .drawArc(0, 2*Math::Pi * p, 0.2, 0.2, ColorF{charged_color, opacity});
     }
     
 }
@@ -197,7 +197,7 @@ void Player::on_jump_start(const InputInfo& input) {
         // 走る速度に応じてジャンプの勢いを変えるようにする。
         const double momentum_coef = charged;
         charged *= 0.6;
-        transform_.velocity =  momentum_coef * (jump_velocity_max * input.jumping_direction + Vec2{0, -7});
+        transform_.velocity +=  momentum_coef * (jump_velocity_max * input.jumping_direction + Vec2{5, -7});
         p_state_ = S_Jump;
         on_start_off_ground(input);
         effect.add<BubbleEffect>(this->foot_point(), momentum_coef*3);

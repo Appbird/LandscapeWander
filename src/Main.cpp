@@ -6,6 +6,11 @@
 # include "image_process.hpp"
 # include "Blackhole.hpp"
 
+// #TODO 
+    // ワームホールの中心に黒点
+    // 数字を消す
+
+
 // #TODO ディメンションホールの実装
     // 一定速度で左に行く
     // 楕円の描画(黒)
@@ -114,9 +119,13 @@ void Main()
     // 背景の色を設定する
 	Scene::SetBackground(ColorF{ 0.1, 0.1, 0.1 });
     
-    Audio bgm{U"../assets/music/Clarity_of_My_Sight.mp3", Loop::Yes};
-    assert(bgm);
-    //bgm.playOneShot();
+    Window::SetStyle(WindowStyle::Sizable);
+
+    Audio bgm_game{U"../assets/music/reflectable.mp3", Loop::Yes};
+    Audio bgm_instruction{U"../assets/music/予兆.mp3", Loop::Yes};
+    Audio se_bighit{U"../assets/se/hit.mp3"};
+    assert(bgm_game);
+    assert(bgm_instruction);
 
     GameState gamestate = G_Ready;
 
@@ -163,6 +172,7 @@ void Main()
             line.end    *= photo_meter_per_pixel;
         }
     }
+    
     for (int i = 1; i < lines_of_stages.size(); i++) {
         for (Line& line : lines_of_stages[i]) {
             line.begin.x  += Photo_world_Rect.x * i;
@@ -172,6 +182,7 @@ void Main()
     }
 
     Player player{{3.0, Photo_world_Rect.y/3}};
+    player.transform_.velocity.x = 20;
     Blackhole blackhole{
         {Camera_world_Rect.x - Camera_world_Rect.x/7, Photo_world_Rect.y/7},
         Vec2{Camera_world_Rect.x/10, Photo_world_Rect.y/5} * 2,
@@ -184,6 +195,7 @@ void Main()
     Stopwatch game_start_stopwatch{StartImmediately::No};
     Stopwatch message_stopwatch{StartImmediately::Yes};
     int page = 0;
+    bgm_instruction.play();
     while (System::Update()) {
         ClearPrint();
         switch (gamestate) {
@@ -197,6 +209,8 @@ void Main()
                         if (page == how_to_play.size()) {
                             gamestate = Playing; 
                             game_start_stopwatch.start();
+                            bgm_instruction.stop();
+                            bgm_game.play();
                         }    
                     }
                     if (KeyLeft.up()) { page--; }
@@ -216,7 +230,7 @@ void Main()
                     const int photo_index_world = (int)floor( (blackhole.position.x - (Camera_world_Rect.x/2 + blackhole.basic_size.x/2)) / photo_world_width ) - 2;
                     const int cycle_count = photo_index_world / backgrounds.size();
                     const int photo_index_camera = ((photo_index_world) % backgrounds.size()) + ((photo_index_world % backgrounds.size() >= 0) ? 0 : backgrounds.size());
-
+                    
                     if (photo_passing_count < photo_index_world) {
                         if (photo_index_world >= 0) {
                             for (Line& line : lines_of_stages[photo_index_camera]) {
@@ -241,6 +255,7 @@ void Main()
                     }
                     if (const auto option_point = blackhole.collision_box().intersectsAt(player.collision_box())) {
                         blackhole.shrink(player.transform_.velocity.lengthSq(), (*option_point)[0]);
+                        se_bighit.play();
                         player.transform_.velocity *= -0.6;
                         player.transform_.velocity.x = Clamp(player.transform_.velocity.x, -5.0, 1.0);
                     }
@@ -251,7 +266,7 @@ void Main()
                 blackhole.update();
 
                 const Vec2 scroll_offset = Clamp(
-                    blackhole.position - Vec2{Camera_world_Rect.x/2, 0},
+                    blackhole.position - Vec2{Camera_world_Rect.x/2 - blackhole.basic_size.x / 2, 0},
                     Vec2::Zero() + Camera_world_Rect/2,
                     Photo_world_Rect - Camera_world_Rect / 2
                 );

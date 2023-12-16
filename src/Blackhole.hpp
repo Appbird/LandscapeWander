@@ -64,7 +64,7 @@ public:
         for (int i = 0; i < 40; i++) {
             effect.add<SparkEffect>((touched_point + position)/2, 0.10, 9.8*3, RectF{{-15, -10}, {40, 20}});
         }
-        received_energy += energy / 20;
+        received_energy += energy / 100;
     }
     double destroyed_rate() {
         return (time) / (2 * max_time);

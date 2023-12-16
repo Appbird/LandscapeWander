@@ -62,8 +62,8 @@ public:
 
     // #FIXME Lineの寿命を考慮していないことに注意
     const Line* touched_ground = nullptr;
-    double move_speed_ = 18;
-    double jump_velocity_max = 15;
+    double move_speed_ = 30;
+    double jump_velocity_max = 24;
     double rundust_time = 0;
     double jump_effect_time = 0;
     

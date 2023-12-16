@@ -3,7 +3,7 @@
 
 void Blackhole::update() {
     if (not destroyed) {
-        position.x += 10 * Scene::DeltaTime();
+        position.x += 20 * Scene::DeltaTime();
         time -= Scene::DeltaTime();
     } else {
         destroyed_count += Scene::DeltaTime();
