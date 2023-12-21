@@ -114,6 +114,9 @@ Array<Line> extract_stageline_from(const Image& image) {
     for (int i = 0; i < line_count; i++) {
         if (line_used[i]) { tied_lines.push_back(lines[i]); }
     }
+    Rect bottom{{0, 0}, {image_scaled.width(), image_scaled.height()}};
+    // 底に線を追加
+    tied_lines.emplace_back(bottom.bottom());
     Console << U"tied_lines: " << tied_lines.size();
     // もともと画像サイズを圧縮していたので、得られた線分の座標を画像座標系のそれに戻す。
     for (Line& line : tied_lines) {

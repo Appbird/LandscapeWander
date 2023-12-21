@@ -49,13 +49,13 @@ public:
     
     Effect effect;
 
-    Texture run;
-    Texture jump;
-    Audio run_se;
-    Audio jump_se;
-    Audio rocket_se;
-    Audio land_se;
-    Audio sliding_se;
+    Texture run     { TextureAsset(U"player/run") };
+    Texture jump    { TextureAsset(U"player/jump") };
+    Audio run_se    { AudioAsset(U"se/run") };
+    Audio jump_se   { AudioAsset(U"se/jump") };
+    Audio rocket_se { AudioAsset(U"se/rocket") };
+    Audio land_se   { AudioAsset(U"se/land") };
+    Audio sliding_se{ AudioAsset(U"se/sliding") };
 
     Transform transform_;
     SizeF character_size_{3.6, 3.6};
@@ -128,14 +128,7 @@ private:
 
 public:
     Player(Vec2 position):
-        run{ U"../assets/sprites/stickfigure_walk.png" },
-        jump{ U"../assets/sprites/stickfigure_jump.png" },
-        run_se{ U"../assets/se/running.wav" },
-        jump_se{ U"../assets/se/jump.wav" },
-        land_se{ U"../assets/se/land.wav" },
-        sliding_se{ U"../assets/se/sliding.mp3" },
-        rocket_se{ U"../assets/se/rocket.mp3" },
-        animation_(prepare_animation())
+        animation_  (prepare_animation())
     {
         run_se.setLoop(true);
         transform_.position = position;

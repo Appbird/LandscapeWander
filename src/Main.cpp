@@ -6,70 +6,20 @@
 # include "image_process.hpp"
 # include "Blackhole.hpp"
 
-// #TODO 
-    // ワームホールの中心に黒点
-    // 数字を消す
-
-
-// #TODO ディメンションホールの実装
-    // 一定速度で左に行く
-    // 楕円の描画(黒)
-    // どんどん広がっていく
-    // 主人公がぶつかると広がりが抑えられる。
-    // 飛び状態の障害物にぶつかられるとディメンションホールが縮む
-// #TODO 連続した長い写真に対応できるようにする。
-// #TODO 障害物の定義
-    // ディメンションホールから出てくる
-    // 紫色の円
-    // 速度を持つ
-    // プレイヤーにぶつかると破壊
-    // ジャンプ状態のプレイヤーにぶつかられると、プレイヤーの速度方向に飛んでいく
-        // その状態でブラックホールにぶつかると、破壊される
-
+// Completed #TODO リソースを全てリソースマネジャに管理を統一させる
+    // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-asset
+// #TODO SceneManagerを用いて実装する
+    // update, drawを実装する形にする
+    // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-scene-manager
+// #TODO タイトルを実装
+    // ref. https://unityroom.com/games/bgmemory
+// #TODO シーン遷移を丁寧にする
 
 Vec2 Clamp(const Vec2& value, const Vec2& min, const Vec2& max) {
     return Vec2{
         value.x, // Clamp(value.x, min.x, max.x),
         Clamp(value.y, min.y, max.y),
     };
-}
-
-// Glyph とエフェクトの関数を組み合わせてテキストを描画
-void DrawText(const Font& font, double fontSize, const String& text, const Vec2& pos, const ColorF& color, double t,
-	void f(const Vec2&, double, const Glyph&, const ColorF&, double), double characterPerSec)
-{
-	const double scale = (fontSize / font.fontSize());
-	Vec2 penPos = pos;
-	const ScopedCustomShader2D shader{ Font::GetPixelShader(font.method()) };
-
-	for (auto&& [i, glyph] : Indexed(font.getGlyphs(text)))
-	{
-		if (glyph.codePoint == U'\n')
-		{
-			penPos.x = pos.x;
-			penPos.y += (font.height() * scale);
-			continue;
-		}
-
-		const double targetTime = (i * characterPerSec);
-
-		if (t < targetTime)
-		{
-			break;
-		}
-
-		f(penPos, scale, glyph, color, (t - targetTime));
-
-		penPos.x += (glyph.xAdvance * scale);
-	}
-}
-
-// 文字が上からゆっくり降ってくる表現
-void TextEffect1(const Vec2& penPos, double scale, const Glyph& glyph, const ColorF& color, double t)
-{
-	const double y = EaseInQuad(Saturate(1 - t / 0.3)) * -20.0;
-	const double a = Min(t / 0.3, 1.0);
-	glyph.texture.scaled(scale).draw(penPos + glyph.getOffset(scale) + Vec2{ 0, y }, ColorF{color, a});
 }
 
 struct BloomTextures {
@@ -114,16 +64,45 @@ enum GameState {
     Failed
 };
 String get_text(int msg_code);
+
+
+FilePath asset_path(const String& path) {
+    const String assets_path = U"../assets";
+    return FileSystem::PathAppend(assets_path, path);
+}
+void RegisterResource() {
+    TextureAsset::Register(U"instructions/page1", asset_path(U"howto/page1.JPG"));
+    TextureAsset::Register(U"instructions/page2", asset_path(U"howto/page2.JPG"));
+    TextureAsset::Register(U"instructions/page3", asset_path(U"howto/page3.JPG"));
+
+    TextureAsset::Register(U"player/run",   asset_path(U"sprites/stickfigure_walk.png"));
+    TextureAsset::Register(U"player/jump",  asset_path(U"sprites/stickfigure_jump.png"));
+
+    AudioAsset::Register(U"se/run",     asset_path(U"se/running.wav"));
+    AudioAsset::Register(U"se/jump",    asset_path(U"se/jump.wav"));
+    AudioAsset::Register(U"se/land",    asset_path(U"se/land.wav"));
+    AudioAsset::Register(U"se/sliding", asset_path(U"se/sliding.mp3"));
+    AudioAsset::Register(U"se/rocket",  asset_path(U"se/rocket.mp3"));    
+    AudioAsset::Register(U"se/bighit",  asset_path(U"se/hit.mp3"));
+    
+    AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
+    AudioAsset::Register(U"bgm/title",  asset_path(U"music/予兆.mp3"));
+    AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
+}
+
 void Main()
 {
     // 背景の色を設定する
 	Scene::SetBackground(ColorF{ 0.1, 0.1, 0.1 });
-    
+    RegisterResource();
+
     Window::SetStyle(WindowStyle::Sizable);
 
-    Audio bgm_game{U"../assets/music/reflectable.mp3", Loop::Yes};
-    Audio bgm_instruction{U"../assets/music/予兆.mp3", Loop::Yes};
-    Audio se_bighit{U"../assets/se/hit.mp3"};
+    Audio bgm_game = AudioAsset(U"bgm/game");
+    bgm_game.setLoop(true);
+    Audio bgm_instruction = AudioAsset(U"bgm/title");
+    bgm_instruction.setLoop(true);
+    Audio se_bighit = AudioAsset(U"se/bighit");
     assert(bgm_game);
     assert(bgm_instruction);
 
@@ -131,17 +110,17 @@ void Main()
 
     BloomTextures bloom;
     Array<Texture> how_to_play{
-        Texture{U"../assets/howto/page1.JPG" },
-        Texture{U"../assets/howto/page2.JPG" },
-        Texture{U"../assets/howto/page3.JPG" }
+        TextureAsset(U"instructions/page1"),
+        TextureAsset(U"instructions/page2"),
+        TextureAsset(U"instructions/page3")
     };
-    Array<Image> backgrounds{
-        Image{U"../assets/test/ex1.png" },
-        Image{U"../assets/test/ex2.png" },
-        Image{U"../assets/test/ex3.png" },
-        Image{U"../assets/test/ex4.png" },
-        Image{U"../assets/test/ex5.png" },
-    };
+    const int page_number = 2;
+    const int page_count = 5;
+    Array<Image> backgrounds{};
+    for (int i = 1; i <= page_count; i++) {
+        backgrounds.emplace_back(U"../assets/test/page" + Format(page_number) + U"/ex" + Format(i) + U".png");
+    }
+    
     Array<Vec2> backgrounds_offset(backgrounds.size());
     Array<Array<Line>> lines_of_stages;
     Array<Texture> background_textures;
@@ -321,7 +300,7 @@ void Main()
                         // リザルト表示
                         RectF{{0, Scene::Height() * 0.4}, {Scene::Width(), Scene::Height() * 0.2}}.draw(ColorF{0, 0.5});
                         UI_font(
-                            (gamestate == Success) ? U"街を救った!" : U"Failed..."
+                            (gamestate == Success) ? U"町を救った!" : U"Failed..."
                         ).drawAt(Scene::Center(), Palette::White);
                     } else {
                         RectF{{0, 0}, {Scene::Width() * blackhole.destroyed_rate(), Scene::Height() / 20}}.draw(
@@ -337,17 +316,6 @@ void Main()
             {0, Scene::Height() * 0.8},
             {Scene::Width(), Scene::Height() * 0.2}
         };
-        
-        
-        if (message_stopwatch.s() > 4.0 * (message_count + 1)) {
-            message_count++;
-        }
-        const String text = get_text(message_count);
-        if (not text.empty()) {
-            dialog_area.draw(ColorF{0, 0.4});
-            UI_font(U"司令部").draw(24, Arg::topLeft = dialog_area.stretched(-10).tl(), ColorF{200});
-            UI_font(text).draw(18, Arg::center = dialog_area.stretched(-Scene::Width()/8).center(),  ColorF{200});   
-        }
         
     }    
 }
