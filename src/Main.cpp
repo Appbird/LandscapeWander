@@ -117,9 +117,9 @@ void Main()
     const int page_number = 2;
     const int page_count = 5;
     const String extention{ U"png" };
-    Array<Image> backgrounds{};
+    Array<Image> backgrounds;
     for (int i = 1; i <= page_count; i++) {
-        backgrounds.emplace_back(U"../assets/test/page" + Format(page_number) + U"/ex" + Format(i) + U"." + extention);
+        backgrounds.push_back(Image{U"../assets/test/page" + Format(page_number) + U"/ex" + Format(i) + U"." + extention});
     }
     
     Array<Vec2> backgrounds_offset(backgrounds.size());
