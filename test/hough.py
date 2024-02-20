@@ -27,6 +27,8 @@ N = 5
 d = 10
 sigma_Color = 90
 sigma_Space = 90
+min_threshold = 30
+max_threshold = 100
 
 width = img.shape[0]
 # 下げすぎると木の障害物などに大きく引っ張られやすくなる

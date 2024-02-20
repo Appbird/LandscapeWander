@@ -6,7 +6,7 @@
                 "${workspaceFolder}/**",
                 "../../include",
 				"../../include/ThirdParty",
-                "/usr/local/Cellar/opencv/4.8.1_1/include/**"
+                "/usr/local/Cellar/opencv/4.9.0_2/include/**"
             ],
             "defines": [],
             "macFrameworkPath": [

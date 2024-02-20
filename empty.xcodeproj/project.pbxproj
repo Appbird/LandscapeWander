@@ -409,7 +409,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					../../include/ThirdParty,
-					"/usr/local/Cellar/opencv/4.8.1_1/include/**",
+					"/usr/local/Cellar/opencv/4.9.0_2/include/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -485,7 +485,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					../../include/ThirdParty,
-					"/usr/local/Cellar/opencv/4.8.1_1/include/**",
+					"/usr/local/Cellar/opencv/4.9.0_2/include/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

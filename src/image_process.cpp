@@ -3,6 +3,10 @@
 #include <iterator>
 #include "image_process.hpp"
  
+static double segment_distance(double l1, double r1, double l2, double r2) { 
+    return std::max(0.0, std::max(l1, l2) - std::min(r2, r1));
+}
+
 Array<Line> extract_stageline_from(const Image& image) {
     constexpr int N = 5;
     constexpr int d = 10;
@@ -91,13 +95,22 @@ Array<Line> extract_stageline_from(const Image& image) {
             ) {
                 continue;
             }
+            // L1軸への正射影
+            const auto projection = [&](const Vec2& v) -> double { return (v - L1.begin).dot(L1_direction); };
+            if (
+                segment_distance(
+                    projection(L1.begin), projection(L1.end),
+                    projection(L2b_prime), projection(L2e_prime)
+                ) > threshold_q
+            ) {
+                continue;
+            }
 
             // #COMPLETED TODO projectionから書く
             // 線分の構成点を、すべてのL1方向の軸へ降ろしたときに各々の点がどのような順序で並ぶかを調べる。
             // その並びをもとに、端にある端点を調べる。
             std::array<Vec2, 4> point_list{L1.begin, L1.end, L2b_prime, L2e_prime};
-            // L1軸への正射影
-            const auto projection = [&](const Vec2& v) -> double { return (v - L1.begin).dot(L1_direction); };
+            
             std::sort(point_list.begin(), point_list.end(), 
                 [&](const Vec2& a, const Vec2& b) -> bool { return projection(a) < projection(b); }
             );
