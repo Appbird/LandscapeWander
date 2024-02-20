@@ -40,7 +40,6 @@
 		93CA42722B84AB4200658CAB /* LandscapeStickman in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426D2B84AB4200658CAB /* LandscapeStickman */; };
 		93CA42732B84AB4200658CAB /* GameScene in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426E2B84AB4200658CAB /* GameScene */; };
 		93CA42742B84AB4200658CAB /* LandscapeWander in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426F2B84AB4200658CAB /* LandscapeWander */; };
-		93CA42752B84AB4200658CAB /* TechDemo in Resources */ = {isa = PBXBuildFile; fileRef = 93CA42702B84AB4200658CAB /* TechDemo */; };
 		93CA42762B84AB4200658CAB /* Utility in Resources */ = {isa = PBXBuildFile; fileRef = 93CA42712B84AB4200658CAB /* Utility */; };
 		93CA427F2B84AC1900658CAB /* Blackhole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA427C2B84AC1900658CAB /* Blackhole.cpp */; };
 		93CA42802B84AC1900658CAB /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA427D2B84AC1900658CAB /* Player.cpp */; };
@@ -50,6 +49,8 @@
 		93CA42872B84AC4700658CAB /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42852B84AC4700658CAB /* Animation.cpp */; };
 		93CA42892B84B28000658CAB /* Bloom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42882B84B28000658CAB /* Bloom.cpp */; };
 		93CA428B2B84C53400658CAB /* InstructionsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA428A2B84C53400658CAB /* InstructionsScene.cpp */; };
+		93CA428E2B84E21100658CAB /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA428C2B84E21000658CAB /* Player.cpp */; };
+		93CA428F2B84E21100658CAB /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA428D2B84E21000658CAB /* MainGame.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,7 +89,6 @@
 		93CA426D2B84AB4200658CAB /* LandscapeStickman */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeStickman; sourceTree = "<group>"; };
 		93CA426E2B84AB4200658CAB /* GameScene */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GameScene; sourceTree = "<group>"; };
 		93CA426F2B84AB4200658CAB /* LandscapeWander */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeWander; sourceTree = "<group>"; };
-		93CA42702B84AB4200658CAB /* TechDemo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TechDemo; sourceTree = "<group>"; };
 		93CA42712B84AB4200658CAB /* Utility */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Utility; sourceTree = "<group>"; };
 		93CA427C2B84AC1900658CAB /* Blackhole.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Blackhole.cpp; path = src/LandscapeStickman/Blackhole.cpp; sourceTree = "<group>"; };
 		93CA427D2B84AC1900658CAB /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeStickman/Player.cpp; sourceTree = "<group>"; };
@@ -98,6 +98,8 @@
 		93CA42852B84AC4700658CAB /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = src/Utility/Animation.cpp; sourceTree = "<group>"; };
 		93CA42882B84B28000658CAB /* Bloom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Bloom.cpp; path = src/Utility/Bloom.cpp; sourceTree = "<group>"; };
 		93CA428A2B84C53400658CAB /* InstructionsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InstructionsScene.cpp; path = src/LandscapeStickman/InstructionsScene.cpp; sourceTree = "<group>"; };
+		93CA428C2B84E21000658CAB /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/WalkDemo/Player.cpp; sourceTree = "<group>"; };
+		93CA428D2B84E21000658CAB /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/WalkDemo/MainGame.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,8 @@
 		2C1778791CE0A9D800BB8AD0 = {
 			isa = PBXGroup;
 			children = (
+				93CA428D2B84E21000658CAB /* MainGame.cpp */,
+				93CA428C2B84E21000658CAB /* Player.cpp */,
 				93CA428A2B84C53400658CAB /* InstructionsScene.cpp */,
 				93CA42882B84B28000658CAB /* Bloom.cpp */,
 				93CA42852B84AC4700658CAB /* Animation.cpp */,
@@ -172,7 +176,6 @@
 				93CA426E2B84AB4200658CAB /* GameScene */,
 				93CA426D2B84AB4200658CAB /* LandscapeStickman */,
 				93CA426F2B84AB4200658CAB /* LandscapeWander */,
-				93CA42702B84AB4200658CAB /* TechDemo */,
 				93CA42712B84AB4200658CAB /* Utility */,
 				2C1778991CE0AA7C00BB8AD0 /* Main.cpp */,
 			);
@@ -272,7 +275,6 @@
 				2C6906D82298140F00A427D0 /* engine in Resources */,
 				93CA42732B84AB4200658CAB /* GameScene in Resources */,
 				93CA42742B84AB4200658CAB /* LandscapeWander in Resources */,
-				93CA42752B84AB4200658CAB /* TechDemo in Resources */,
 				93CA42722B84AB4200658CAB /* LandscapeStickman in Resources */,
 				93CA42762B84AB4200658CAB /* Utility in Resources */,
 				2C1778A31CE0B65500BB8AD0 /* icon.icns in Resources */,
@@ -286,6 +288,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93CA428E2B84E21100658CAB /* Player.cpp in Sources */,
+				93CA428F2B84E21100658CAB /* MainGame.cpp in Sources */,
 				93CA428B2B84C53400658CAB /* InstructionsScene.cpp in Sources */,
 				93CA42892B84B28000658CAB /* Bloom.cpp in Sources */,
 				93CA42862B84AC4700658CAB /* numeric.cpp in Sources */,

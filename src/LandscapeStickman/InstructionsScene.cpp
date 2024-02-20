@@ -20,7 +20,7 @@ void InstructionScene::update()
     if (KeyRight.up()) {
         page++;
         if (page == how_to_play.size()) {
-            this->changeScene(U"LandscapeStickman/GameMain", 1000);
+            this->changeScene(U"LandscapeStickman/MainGame", 1000);
             bgm_instruction.stop();
         }    
     }

@@ -3,15 +3,12 @@
 #include "../Utility/AnimationManager.hpp"
 #include "../Utility/CollisionEvent.hpp"
 
-namespace LandscapeStickman {
+namespace WalkDemo {
 
 enum PlayerState{
     S_NULL,
-    S_Starting,
     S_Running,
-    S_Sliding,
     S_Waiting,
-    S_Charged_in_Air,
     S_Prepare_Jump,
     S_Jump,
     S_Fall,
@@ -25,7 +22,6 @@ enum LookingDirection {
 enum PlayerAnimationState {
     Slow_Running,
     Running,
-    Sliding,
     Fast_Running,
     Waiting,
     Jumping_Up,
@@ -42,58 +38,42 @@ class Player {
 public:
     struct InputInfo {
         int direction;
-        Vec2 jumping_direction;
         // ジャンプボタンが押されたかどうか
         bool jump_pressed;
     };
 public:
-    // #TODO: ManagerにInitを定義する。
     using AnimationManager = AnimationsManager<PlayerAnimationState>;
     
-    Effect effect;
-
     Texture run;
     Texture jump;
     Audio run_se;
     Audio jump_se;
-    Audio rocket_se;
     Audio land_se;
-    Audio sliding_se;
 
     Transform transform_;
-    SizeF character_size_{3.6, 3.6};
+    SizeF character_size_{1.8, 1.8};
 
     // #FIXME Lineの寿命を考慮していないことに注意
     const Line* touched_ground = nullptr;
-    double move_speed_ = 30;
-    double jump_velocity_max = 24;
+    double move_speed_ = 13;
+    double jump_velocity_max = 15;
     double rundust_time = 0;
-    double jump_effect_time = 0;
+    const double rundust_interval_time = 0.2;
     
-    // 滑りによるチャージ値
-    // 上限値は1とする。
-    double charged = 0;
-    
+
+
     PlayerState p_state_ = S_Waiting;
-    LookingDirection looking_direction_ = LD_RIGHT;
+    LookingDirection looking_direction_ = LD_LEFT;
 
     AnimationManager animation_;
-
-    Stopwatch starting_pose_stopwatch;
-    const double starting_pose_period = 0.8;
-
-    bool should_running = true;
-    bool controllable_state = true;
 
     bool is_jumping() const;
     bool is_movable() const;
     bool is_runnable() const;
     bool is_on_ground() const;
-    bool is_sliding() const;
     
     double running_momentum_percent() const;
 
-    void stop_running();
 private:
     // --- 関連関数群 (状態更新に係るもの)---
 
@@ -109,59 +89,44 @@ private:
     void on_in_air(const InputInfo& input);
     /// @brief 地面にいるときに実行されるルーチン
     void on_ground(const InputInfo& input);
-
-    /// @brief スライディングしている時に実行されるルーチン
-    void on_sliding(const InputInfo& input);
     
     /// @brief ジャンプが準備中であるときに実行されるルーチン
-    void on_jump_start(const InputInfo& input);
+    void on_jump_start(const InputInfo& input, Effect& effect);
     /// @brief 着地するときに実行されるルーチン
     void on_landing(const InputInfo& input);
     
     /// @brief 走ることが可能な場合に実行されるルーチン
-    void on_runnable(const InputInfo& input);
+    void on_runnable(const InputInfo& input, Effect& effect);
     /// @brief 動くことが可能な場合に実行されるルーチン
     void on_movable(const InputInfo& input);
 
     void on_start_off_ground(const InputInfo& input);
     
-
-    void on_brake(const double deacc_coef, const double charged_coef);
-    void occur_rundust_effect(const double rundust_interval_time);
-
 public:
+    Player():
+        run{ TextureAsset(U"player/run") },
+        jump{ TextureAsset(U"player/jump") },
+        run_se{ AudioAsset(U"se/run") },
+        jump_se{ AudioAsset(U"se/jump") },
+        land_se{ AudioAsset(U"se/land") },
+        animation_(prepare_animation())
+    {
+        run_se.setLoop(true);
+    }
+    void Init(Vec2 position) {
+        transform_.position = position;
+        animation_.change_animation(Waiting);
+    }
     void update(Effect& effect);
     void resolve_collision(const Array<CollisionEvent>& collisionEvents, const Array<Line>& lines);
     void draw() const;
-    void Init(const Vec2& position) {
-        run     = { TextureAsset(U"player/run") };
-        jump    = { TextureAsset(U"player/jump") };
-        run_se  = { AudioAsset(U"se/run") };
-        jump_se = { AudioAsset(U"se/jump") };
-        rocket_se   = { AudioAsset(U"se/rocket") };
-        land_se     = { AudioAsset(U"se/land") };
-        sliding_se  = { AudioAsset(U"se/sliding") };
-        transform_.position = position;
-        animation_ = prepare_animation();
-        run_se.setLoop(true);
-        animation_.change_animation(Waiting);
-    }
     
     Line collision_line() const;
-    RectF collision_box() const;
     Line landing_raycast() const;
     Vec2 foot_point() const;
     
-    ~Player() {
-        run_se.stop();
-        jump_se.stop();
-        rocket_se.stop();
-        land_se.stop();
-        sliding_se.stop();
-    }
 };
 
-}
 /*
     アプローチを決めたい
     (1) 状態変数は引数越しで読ませる？
@@ -183,3 +148,4 @@ public:
 
     ... でも、テストはしない！から慣れてる方を取る！
 */
+}

@@ -4,41 +4,37 @@
 #include "../Utility/Bloom.hpp"
 #include "../Utility/CollisionEvent.hpp"
 #include "Player.hpp"
-#include "Blackhole.hpp"
-namespace LandscapeStickman {
+namespace WalkDemo {
+
+// #TODO 操作説明も画面下部に加える。
+// 特に、Aキー, Bキー
 
 class MainGame : public App::Scene {
 private:
     enum GameState {
         Playing,
-        Success,
-        Failed
+        End
     };
     Audio bgm_game;
-    Audio se_bighit;
-    Array<Image> backgrounds;
-    Array<Texture> background_textures;
-    
+    Image background;
+    Texture background_texture;
     Effect effect;
     BloomTextures bloom_textures;
 
     GameState gamestate = Playing;
-    Array<Vec2> backgrounds_offset;
-    Array<Array<Line>> lines_of_stages;
-    Array<Array<CollisionEvent>> collision_events;
+    Vec2 backgrounds_offset;
+    Array<Line> lines_of_stage;
+    Array<CollisionEvent> collision_events;
     
     Player player;
-    Blackhole blackhole;
+
+    bool displaying_line;
     
-    int photo_passing_count = -2;
     Stopwatch game_start_stopwatch{StartImmediately::No};
-    Stopwatch game_end_stopwatch{StartImmediately::No};
 
-
-
-    // カメラが写す画面の範囲(mを単位とする。)
+    // 写真の横幅がゲーム空間の何メートルを占めるかを表す。(mを単位とする。)
     double photo_world_width() const {
-        return 50;
+        return 60;
     }
     // カメラが写す世界の大きさをm単位で返す。
     Vec2 Camera_world_Rect() const {
@@ -46,24 +42,22 @@ private:
     }
     // ゲーム空間中での写真背景の大きさをm単位で返す。
     Vec2 Photo_world_Rect() const {
-        assert(backgrounds.size() > 0);
-        return {photo_world_width(), photo_world_width() * backgrounds[0].size().y / backgrounds[0].size().x};
+        return {photo_world_width(), photo_world_width() * background.size().y / background.size().x};
     }
-    // ゲーム空間中での写真背景の高さをm単位で返す。
+    // ゲーム空間中でのカメラ座標系の背景の高さをm単位で返す。
     double camera_world_height() const {
-        return Photo_world_Rect().y;
+        return Photo_world_Rect().y /1.5;
     }
     // 写真の1ピクセルの幅がゲーム空間の何メートルを占めるかを返す。
     double photo_meter_per_pixel() const {
-        assert(backgrounds.size() > 0);
-        return (photo_world_width() / backgrounds[0].width());
+        return (photo_world_width() / background.width());
     }
     // ゲーム空間の1mがスクリーンの何ピクセル分の幅を占めているかを返す。
     double screen_pixel_per_meter() const {
         return Scene::Height() / camera_world_height();
     }
     bool is_game_end() const {
-        return gamestate == Success or gamestate == Failed;
+        return gamestate == End;
     }
 
     // 現在のスクロール量を返す。
@@ -74,7 +68,6 @@ public:
     void draw() const override;
     ~MainGame() {
         bgm_game.stop();
-        se_bighit.stop();
     }
 };
 

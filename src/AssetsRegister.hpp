@@ -23,6 +23,8 @@ static void RegisterAssets() {
     
     AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
     AudioAsset(U"bgm/game").setLoop(true);
+    AudioAsset::Register(U"bgm/walk-demo",    asset_path(U"music/Clarity_of_My_Sight.mp3"));
+    AudioAsset(U"bgm/game").setLoop(true);
     AudioAsset::Register(U"bgm/instruction",  asset_path(U"music/予兆.mp3"));
     AudioAsset(U"bgm/instruction").setLoop(true);
     

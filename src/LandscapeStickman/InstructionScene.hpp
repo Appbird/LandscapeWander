@@ -13,6 +13,6 @@ public:
     InstructionScene(const InitData& init);
     void update() override;
     void draw() const override;
-    
+    ~InstructionScene() { bgm_instruction.stop(); }
 };
 }

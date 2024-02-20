@@ -74,8 +74,8 @@ Array<Line> extract_stageline_from(const Image& image) {
     }
 
     // 各辺の組み合わせのうち、最も近くて角度が類似している辺を結合する。
-    for (int i = 0; i < line_count; i++) {
-        for (int j = i + 1; j < line_count; j++) {
+    for (size_t i = 0; i < line_count; i++) {
+        for (size_t j = i + 1; j < line_count; j++) {
             if (not line_used[i] or not line_used[j]) { continue; }
             
             const Line& L1 = lines[i];
@@ -124,7 +124,7 @@ Array<Line> extract_stageline_from(const Image& image) {
 
     // 統合されていない線のみを抽出し
     Array<Line> tied_lines;
-    for (int i = 0; i < line_count; i++) {
+    for (size_t i = 0; i < line_count; i++) {
         if (line_used[i]) { tied_lines.push_back(lines[i]); }
     }
     Rect bottom{{0, 0}, {image_scaled.width(), image_scaled.height()}};

@@ -10,7 +10,7 @@
 namespace LandscapeStickman {
 
 Vec2 MainGame::scroll_offset() const {
-    return Clamp(
+    return ClampY(
         blackhole.position - Vec2{Camera_world_Rect().x/2 - blackhole.basic_size.x / 2, 0},
         Vec2::Zero() + Camera_world_Rect() / 2,
         Photo_world_Rect() - Camera_world_Rect() / 2
@@ -128,9 +128,11 @@ void MainGame::update() {
         player.controllable_state = false;
         gamestate = Failed;
     }
-
+    
     if (is_game_end() and not game_end_stopwatch.isRunning()) { std::cout << "A" << std::endl; game_end_stopwatch.start(); }
-    if (game_end_stopwatch.s() >= 6) {changeScene(U"LandscapeStickman/InstructionScene", 3000); }
+    if (game_end_stopwatch.s() >= 6) {
+        changeScene(U"LandscapeStickman/InstructionScene", 3000);
+    }
 }
 
 void MainGame::draw() const 
@@ -158,6 +160,7 @@ void MainGame::draw() const
             player.draw();
         }
     }
+    
 
     Bloom(bloom_textures);
     // UI関連
