@@ -45,7 +45,7 @@ public:
         }
         return diameter * basic_size;
     }
-    void draw() {
+    void draw() const {
         if (not eliminated) {
             Ellipse{collision_box()}
             .draw(HSV{
@@ -68,7 +68,7 @@ public:
         }
         received_energy += energy / 100;
     }
-    double destroyed_rate() {
+    double destroyed_rate() const {
         return (time) / (2 * max_time);
     }
     bool is_covering_all_region(const double leftedge) const {

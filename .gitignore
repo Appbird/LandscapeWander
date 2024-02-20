@@ -9,3 +9,5 @@ test/media
 assets/test
 assets/music
 assets/se
+
+.DS_Store

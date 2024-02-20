@@ -49,6 +49,7 @@
 		93CA42862B84AC4700658CAB /* numeric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42842B84AC4700658CAB /* numeric.cpp */; };
 		93CA42872B84AC4700658CAB /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42852B84AC4700658CAB /* Animation.cpp */; };
 		93CA42892B84B28000658CAB /* Bloom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42882B84B28000658CAB /* Bloom.cpp */; };
+		93CA428B2B84C53400658CAB /* InstructionsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA428A2B84C53400658CAB /* InstructionsScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		93CA42842B84AC4700658CAB /* numeric.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = numeric.cpp; path = src/Utility/numeric.cpp; sourceTree = "<group>"; };
 		93CA42852B84AC4700658CAB /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = src/Utility/Animation.cpp; sourceTree = "<group>"; };
 		93CA42882B84B28000658CAB /* Bloom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Bloom.cpp; path = src/Utility/Bloom.cpp; sourceTree = "<group>"; };
+		93CA428A2B84C53400658CAB /* InstructionsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InstructionsScene.cpp; path = src/LandscapeStickman/InstructionsScene.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 		2C1778791CE0A9D800BB8AD0 = {
 			isa = PBXGroup;
 			children = (
+				93CA428A2B84C53400658CAB /* InstructionsScene.cpp */,
 				93CA42882B84B28000658CAB /* Bloom.cpp */,
 				93CA42852B84AC4700658CAB /* Animation.cpp */,
 				93CA42842B84AC4700658CAB /* numeric.cpp */,
@@ -283,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93CA428B2B84C53400658CAB /* InstructionsScene.cpp in Sources */,
 				93CA42892B84B28000658CAB /* Bloom.cpp in Sources */,
 				93CA42862B84AC4700658CAB /* numeric.cpp in Sources */,
 				93CA42872B84AC4700658CAB /* Animation.cpp in Sources */,

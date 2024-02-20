@@ -17,4 +17,4 @@ struct BloomTextures {
     {}      
 };
 
-void Bloom(BloomTextures& bloom_texures);
+void Bloom(const BloomTextures& bloom_texures);
