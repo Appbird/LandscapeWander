@@ -1,6 +1,8 @@
 #include "Player.hpp"
-#include "bubble.hpp"
-#include "RunDustEffect.hpp"
+#include "../Utility/bubble.hpp"
+#include "../Utility/RunDustEffect.hpp"
+
+namespace LandscapeStickman {
 
 static constexpr double gravity = 9.8;
 
@@ -369,4 +371,6 @@ RectF Player::collision_box() const {
         transform_.position - character_size_/2,
         character_size_
     };
+}
+
 }

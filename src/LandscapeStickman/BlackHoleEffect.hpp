@@ -3,6 +3,8 @@
 #include <chrono>
 #include "Blackhole.hpp"
 
+namespace LandscapeStickman {
+
 struct BroadeningRing : IEffect {
     const Blackhole& blackhole;
     const double inital_width;
@@ -71,3 +73,5 @@ struct HoleParticle : IEffect {
         return t < lifespan;
     }
 };
+
+}

@@ -1,76 +1,83 @@
-# pragma once
-# include <Siv3D.hpp> // OpenSiv3D v0.6.11
-# include "Animation.hpp"
-# include "AnimationManager.hpp" 
+#pragma once
+#include <Siv3D.hpp>
+#include "MainGame.hpp"
+# include "../Utility/Animation.hpp"
+# include "../Utility/AnimationManager.hpp" 
 # include "Player.hpp"
-# include "CollisionEvent.hpp"
-# include "image_process.hpp"
+# include "../Utility/CollisionEvent.hpp"
+# include "../image_process.hpp"
 # include "Blackhole.hpp"
-# include "Bloom.hpp"
-# include "utility.hpp"
-# include "RegisterResource.hpp"
+# include "../Utility/Bloom.hpp"
 
-// Completed #TODO リソースを全てリソースマネジャに管理を統一させる
-    // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-asset
-// #TODO SceneManagerを用いて実装する
-    // update, drawを実装する形にする
-    // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-scene-manager
-// #TODO タイトルを実装
-    // ref. https://unityroom.com/games/bgmemory
-// #TODO シーン遷移を丁寧にする
 
-enum GameState {
-    G_Ready,
-    Playing,
-    Success,
-    Failed
-};
+namespace LandscapeStickman {
 
-void GameMain() {
-    // 背景の色を設定する
-	Scene::SetBackground(ColorF{ 0.1, 0.1, 0.1 });
-    RegisterResource();
+static FilePath asset_path(const String& path) {
+    const String assets_path = U"../assets";
+    return FileSystem::PathAppend(assets_path, path);
+}
 
-    Window::SetStyle(WindowStyle::Sizable);
+static void RegisterAssets() {
+    TextureAsset::Register(U"instructions/page1", asset_path(U"howto/page1.JPG"));
+    TextureAsset::Register(U"instructions/page2", asset_path(U"howto/page2.JPG"));
+    TextureAsset::Register(U"instructions/page3", asset_path(U"howto/page3.JPG"));
 
-    Audio bgm_game = AudioAsset(U"bgm/game");
+    TextureAsset::Register(U"player/run",   asset_path(U"sprites/stickfigure_walk.png"));
+    TextureAsset::Register(U"player/jump",  asset_path(U"sprites/stickfigure_jump.png"));
+
+    AudioAsset::Register(U"se/run",     asset_path(U"se/running.wav"));
+    AudioAsset::Register(U"se/jump",    asset_path(U"se/jump.wav"));
+    AudioAsset::Register(U"se/land",    asset_path(U"se/land.wav"));
+    AudioAsset::Register(U"se/sliding", asset_path(U"se/sliding.mp3"));
+    AudioAsset::Register(U"se/rocket",  asset_path(U"se/rocket.mp3"));    
+    AudioAsset::Register(U"se/bighit",  asset_path(U"se/hit.mp3"));
+    
+    AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
+    AudioAsset::Register(U"bgm/title",  asset_path(U"music/予兆.mp3"));
+    AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
+}
+
+MainGame::MainGame(const InitData& init) : IScene{init} {
+    RegisterAssets();
+    
+    bgm_game = AudioAsset(U"bgm/game");
     bgm_game.setLoop(true);
-    Audio bgm_instruction = AudioAsset(U"bgm/title");
+    bgm_instruction = AudioAsset(U"bgm/title");
     bgm_instruction.setLoop(true);
-    Audio se_bighit = AudioAsset(U"se/bighit");
+    se_bighit = AudioAsset(U"se/bighit");
     assert(bgm_game);
     assert(bgm_instruction);
+    assert(se_bighit);
 
-    GameState gamestate = G_Ready;
-
-    BloomTextures bloom;
-    Array<Texture> how_to_play{
+    how_to_play = {
         TextureAsset(U"instructions/page1"),
         TextureAsset(U"instructions/page2"),
         TextureAsset(U"instructions/page3")
     };
-    const int page_number = 2;
-    const int page_count = 5;
+
+    // 背景の色を設定する
+	Scene::SetBackground(ColorF{ 0.1, 0.1, 0.1 });
+    Window::SetStyle(WindowStyle::Sizable);
+
     const String extention{ U"png" };
-    Array<Image> backgrounds;
     for (int i = 1; i <= page_count; i++) {
         backgrounds.push_back(Image{U"../assets/test/page" + Format(page_number) + U"/ex" + Format(i) + U"." + extention});
     }
-    
-    Array<Vec2> backgrounds_offset(backgrounds.size());
-    Array<Array<Line>> lines_of_stages;
-    Array<Texture> background_textures;
+
+    backgrounds_offset = Array<Vec2>(backgrounds.size());
     for (const Image& background : backgrounds){
         lines_of_stages.push_back(extract_stageline_from(background));
         background_textures.emplace_back(background);
     }
+}
 
-    Font UI_font{36, Typeface::Heavy};
+void MainGame::update()
+{
 
+    
+
+    
     Vec2 position{1, 10};
-
-    Effect effect;
-    Array<Array<CollisionEvent>> collision_events(backgrounds.size());
     const double photo_world_width = 50;
     // 写真がワールド空間ではどれほどの大きさを持つか(mを単位とする。)
     Vec2 Photo_world_Rect = {photo_world_width, photo_world_width * backgrounds[0].size().y / backgrounds[0].size().x};
@@ -256,3 +263,19 @@ void GameMain() {
         
     }    
 }
+
+void MainGame::draw() const 
+{
+
+}
+
+}
+
+// Completed #TODO リソースを全てリソースマネジャに管理を統一させる
+    // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-asset
+// #TODO SceneManagerを用いて実装する
+    // update, drawを実装する形にする
+    // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-scene-manager
+// #TODO タイトルを実装
+    // ref. https://unityroom.com/games/bgmemory
+// #TODO シーン遷移を丁寧にする

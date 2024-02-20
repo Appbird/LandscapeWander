@@ -1,6 +1,8 @@
 #pragma once
 # include <Siv3D.hpp> // OpenSiv3D v0.6.2
 
+namespace LandscapeStickman {
+
 struct BubbleEffect : IEffect
 {
 	struct Bubble
@@ -67,3 +69,4 @@ struct BubbleEffect : IEffect
 		return (t < 1.3);
 	}
 };
+}

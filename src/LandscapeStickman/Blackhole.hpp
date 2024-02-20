@@ -1,9 +1,10 @@
 #pragma once
 #include <Siv3D.hpp>
-#include "CollisionEvent.hpp"
+#include "../Utility/CollisionEvent.hpp"
 #include "bubble.hpp"
 #include "Spark.hpp"
 
+namespace LandscapeStickman {
 
 class Blackhole {
 public:
@@ -72,4 +73,6 @@ public:
     bool is_covering_all_region(const double leftedge) const {
         return collision_box().leftX() < leftedge;
     }
+};
+
 };

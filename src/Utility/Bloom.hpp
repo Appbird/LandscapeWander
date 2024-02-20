@@ -1,6 +1,5 @@
 # pragma once
 # include <Siv3D.hpp> // OpenSiv3D v0.6.11
-
 struct BloomTextures {
     const RenderTexture blur1;
     const RenderTexture internal1;

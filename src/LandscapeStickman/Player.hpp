@@ -1,7 +1,9 @@
 #pragma once
 #include <Siv3D.hpp>
-#include "AnimationManager.hpp"
-#include "CollisionEvent.hpp"
+#include "../Utility/AnimationManager.hpp"
+#include "../Utility/CollisionEvent.hpp"
+
+namespace LandscapeStickman {
 
 enum PlayerState{
     S_NULL,
@@ -146,6 +148,7 @@ public:
     
 };
 
+}
 /*
     アプローチを決めたい
     (1) 状態変数は引数越しで読ませる？

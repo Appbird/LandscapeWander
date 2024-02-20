@@ -8,6 +8,9 @@
 # include "Bloom.hpp"
 # include "utility.hpp"
 # include "RegisterResource.hpp"
+
+namespace TechDemo {
+
 void DemoMain()
 {
     // 背景の色を設定する
@@ -86,4 +89,7 @@ void DemoMain()
         Bloom(bloom);
     }
     
+}
+
+
 }

@@ -1,6 +1,8 @@
 #include "Blackhole.hpp"
 #include "BlackHoleEffect.hpp"
 
+namespace LandscapeStickman {
+
 void Blackhole::update() {
     if (not destroyed) {
         position.x += 20 * Scene::DeltaTime();
@@ -28,4 +30,6 @@ void Blackhole::update() {
         effect.add<HoleParticle>(position, current_size().x * 1.5);
     }
     if (time > max_time * 2) { destroyed = true; }
+}
+
 }
