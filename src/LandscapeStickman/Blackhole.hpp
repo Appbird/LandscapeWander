@@ -1,8 +1,8 @@
 #pragma once
 #include <Siv3D.hpp>
 #include "../Utility/CollisionEvent.hpp"
-#include "bubble.hpp"
-#include "Spark.hpp"
+#include "../Utility/bubble.hpp"
+#include "../Utility/Spark.hpp"
 
 namespace LandscapeStickman {
 
@@ -24,15 +24,16 @@ public:
     bool destroyed = false;
     double destroyed_count = 0;
     bool eliminated = false;
-    Blackhole(
+    
+    void Init(
         Vec2 position_,
         Vec2 basic_size_,
         Vec2 camera_rect_
-    ):
-        position(position_),
-        basic_size(basic_size_),
-        camera_rect(camera_rect_)
-    {} 
+    ){
+        position = (position_);
+        basic_size = (basic_size_);
+        camera_rect = (camera_rect_);
+    }
     void update();
     Vec2 current_size() const {
         double diameter = max_time/Max(time, 1e-6);

@@ -37,10 +37,18 @@
 		2C5C471126B4F08E005E8C85 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C471026B4F08E005E8C85 /* libzlib.a */; };
 		2C6906D82298140F00A427D0 /* engine in Resources */ = {isa = PBXBuildFile; fileRef = 2C6906D72298140F00A427D0 /* engine */; };
 		2CD8412C283263B2005013A6 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CD8412B283263B2005013A6 /* libboost_filesystem.a */; };
-		931D7DB12B07BE68006443DF /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 931D7DA82B07BE68006443DF /* Animation.cpp */; };
-		931D7DB22B07BE68006443DF /* image_process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 931D7DA92B07BE68006443DF /* image_process.cpp */; };
-		931D7DB32B07BE68006443DF /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 931D7DAC2B07BE68006443DF /* Player.cpp */; };
-		937850E42B2CB9AB00780068 /* Blackhole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 937850DE2B2CB9AB00780068 /* Blackhole.cpp */; };
+		93CA42722B84AB4200658CAB /* LandscapeStickman in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426D2B84AB4200658CAB /* LandscapeStickman */; };
+		93CA42732B84AB4200658CAB /* GameScene in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426E2B84AB4200658CAB /* GameScene */; };
+		93CA42742B84AB4200658CAB /* LandscapeWander in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426F2B84AB4200658CAB /* LandscapeWander */; };
+		93CA42752B84AB4200658CAB /* TechDemo in Resources */ = {isa = PBXBuildFile; fileRef = 93CA42702B84AB4200658CAB /* TechDemo */; };
+		93CA42762B84AB4200658CAB /* Utility in Resources */ = {isa = PBXBuildFile; fileRef = 93CA42712B84AB4200658CAB /* Utility */; };
+		93CA427F2B84AC1900658CAB /* Blackhole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA427C2B84AC1900658CAB /* Blackhole.cpp */; };
+		93CA42802B84AC1900658CAB /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA427D2B84AC1900658CAB /* Player.cpp */; };
+		93CA42812B84AC1900658CAB /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA427E2B84AC1900658CAB /* MainGame.cpp */; };
+		93CA42832B84AC3400658CAB /* image_process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42822B84AC3400658CAB /* image_process.cpp */; };
+		93CA42862B84AC4700658CAB /* numeric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42842B84AC4700658CAB /* numeric.cpp */; };
+		93CA42872B84AC4700658CAB /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42852B84AC4700658CAB /* Animation.cpp */; };
+		93CA42892B84B28000658CAB /* Bloom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93CA42882B84B28000658CAB /* Bloom.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,21 +84,18 @@
 		2C5C471026B4F08E005E8C85 /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = ../../lib/macOS/zlib/libzlib.a; sourceTree = "<group>"; };
 		2C6906D72298140F00A427D0 /* engine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = engine; path = App/engine; sourceTree = "<group>"; };
 		2CD8412B283263B2005013A6 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../lib/macOS/boost/libboost_filesystem.a; sourceTree = "<group>"; };
-		931D7DA82B07BE68006443DF /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
-		931D7DA92B07BE68006443DF /* image_process.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_process.cpp; sourceTree = "<group>"; };
-		931D7DAA2B07BE68006443DF /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
-		931D7DAB2B07BE68006443DF /* Interval.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Interval.hpp; sourceTree = "<group>"; };
-		931D7DAC2B07BE68006443DF /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
-		931D7DAD2B07BE68006443DF /* CollisionEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollisionEvent.hpp; sourceTree = "<group>"; };
-		931D7DAE2B07BE68006443DF /* AnimationManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationManager.hpp; sourceTree = "<group>"; };
-		931D7DAF2B07BE68006443DF /* image_process.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = image_process.hpp; sourceTree = "<group>"; };
-		931D7DB02B07BE68006443DF /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
-		937850DE2B2CB9AB00780068 /* Blackhole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blackhole.cpp; sourceTree = "<group>"; };
-		937850DF2B2CB9AB00780068 /* Blackhole.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Blackhole.hpp; sourceTree = "<group>"; };
-		937850E02B2CB9AB00780068 /* RunDustEffect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunDustEffect.hpp; sourceTree = "<group>"; };
-		937850E12B2CB9AB00780068 /* BlackHoleEffect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlackHoleEffect.hpp; sourceTree = "<group>"; };
-		937850E22B2CB9AB00780068 /* bubble.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bubble.hpp; sourceTree = "<group>"; };
-		937850E32B2CB9AB00780068 /* Spark.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spark.hpp; sourceTree = "<group>"; };
+		93CA426D2B84AB4200658CAB /* LandscapeStickman */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeStickman; sourceTree = "<group>"; };
+		93CA426E2B84AB4200658CAB /* GameScene */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GameScene; sourceTree = "<group>"; };
+		93CA426F2B84AB4200658CAB /* LandscapeWander */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeWander; sourceTree = "<group>"; };
+		93CA42702B84AB4200658CAB /* TechDemo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TechDemo; sourceTree = "<group>"; };
+		93CA42712B84AB4200658CAB /* Utility */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Utility; sourceTree = "<group>"; };
+		93CA427C2B84AC1900658CAB /* Blackhole.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Blackhole.cpp; path = src/LandscapeStickman/Blackhole.cpp; sourceTree = "<group>"; };
+		93CA427D2B84AC1900658CAB /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeStickman/Player.cpp; sourceTree = "<group>"; };
+		93CA427E2B84AC1900658CAB /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/LandscapeStickman/MainGame.cpp; sourceTree = "<group>"; };
+		93CA42822B84AC3400658CAB /* image_process.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = image_process.cpp; path = src/LandscapeWander/image_process.cpp; sourceTree = "<group>"; };
+		93CA42842B84AC4700658CAB /* numeric.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = numeric.cpp; path = src/Utility/numeric.cpp; sourceTree = "<group>"; };
+		93CA42852B84AC4700658CAB /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = src/Utility/Animation.cpp; sourceTree = "<group>"; };
+		93CA42882B84B28000658CAB /* Bloom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Bloom.cpp; path = src/Utility/Bloom.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +139,13 @@
 		2C1778791CE0A9D800BB8AD0 = {
 			isa = PBXGroup;
 			children = (
+				93CA42882B84B28000658CAB /* Bloom.cpp */,
+				93CA42852B84AC4700658CAB /* Animation.cpp */,
+				93CA42842B84AC4700658CAB /* numeric.cpp */,
+				93CA42822B84AC3400658CAB /* image_process.cpp */,
+				93CA427C2B84AC1900658CAB /* Blackhole.cpp */,
+				93CA427E2B84AC1900658CAB /* MainGame.cpp */,
+				93CA427D2B84AC1900658CAB /* Player.cpp */,
 				2C6906D72298140F00A427D0 /* engine */,
 				2C1778921CE0A9EA00BB8AD0 /* Info.plist */,
 				2C1778A21CE0B65500BB8AD0 /* icon.icns */,
@@ -154,21 +166,11 @@
 		2C1778981CE0AA7C00BB8AD0 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				937850DE2B2CB9AB00780068 /* Blackhole.cpp */,
-				937850DF2B2CB9AB00780068 /* Blackhole.hpp */,
-				937850E12B2CB9AB00780068 /* BlackHoleEffect.hpp */,
-				937850E22B2CB9AB00780068 /* bubble.hpp */,
-				937850E02B2CB9AB00780068 /* RunDustEffect.hpp */,
-				937850E32B2CB9AB00780068 /* Spark.hpp */,
-				931D7DA82B07BE68006443DF /* Animation.cpp */,
-				931D7DAA2B07BE68006443DF /* Animation.hpp */,
-				931D7DAE2B07BE68006443DF /* AnimationManager.hpp */,
-				931D7DAD2B07BE68006443DF /* CollisionEvent.hpp */,
-				931D7DA92B07BE68006443DF /* image_process.cpp */,
-				931D7DAF2B07BE68006443DF /* image_process.hpp */,
-				931D7DAB2B07BE68006443DF /* Interval.hpp */,
-				931D7DAC2B07BE68006443DF /* Player.cpp */,
-				931D7DB02B07BE68006443DF /* Player.hpp */,
+				93CA426E2B84AB4200658CAB /* GameScene */,
+				93CA426D2B84AB4200658CAB /* LandscapeStickman */,
+				93CA426F2B84AB4200658CAB /* LandscapeWander */,
+				93CA42702B84AB4200658CAB /* TechDemo */,
+				93CA42712B84AB4200658CAB /* Utility */,
 				2C1778991CE0AA7C00BB8AD0 /* Main.cpp */,
 			);
 			path = src;
@@ -265,6 +267,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C6906D82298140F00A427D0 /* engine in Resources */,
+				93CA42732B84AB4200658CAB /* GameScene in Resources */,
+				93CA42742B84AB4200658CAB /* LandscapeWander in Resources */,
+				93CA42752B84AB4200658CAB /* TechDemo in Resources */,
+				93CA42722B84AB4200658CAB /* LandscapeStickman in Resources */,
+				93CA42762B84AB4200658CAB /* Utility in Resources */,
 				2C1778A31CE0B65500BB8AD0 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,10 +283,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				937850E42B2CB9AB00780068 /* Blackhole.cpp in Sources */,
-				931D7DB32B07BE68006443DF /* Player.cpp in Sources */,
-				931D7DB22B07BE68006443DF /* image_process.cpp in Sources */,
-				931D7DB12B07BE68006443DF /* Animation.cpp in Sources */,
+				93CA42892B84B28000658CAB /* Bloom.cpp in Sources */,
+				93CA42862B84AC4700658CAB /* numeric.cpp in Sources */,
+				93CA42872B84AC4700658CAB /* Animation.cpp in Sources */,
+				93CA42832B84AC3400658CAB /* image_process.cpp in Sources */,
+				93CA427F2B84AC1900658CAB /* Blackhole.cpp in Sources */,
+				93CA42802B84AC1900658CAB /* Player.cpp in Sources */,
+				93CA42812B84AC1900658CAB /* MainGame.cpp in Sources */,
 				2C17789A1CE0AA7C00BB8AD0 /* Main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -533,7 +543,7 @@
 				2C17787F1CE0A9D800BB8AD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		2C1778931CE0A9EA00BB8AD0 /* Build configuration list for PBXNativeTarget "empty" */ = {
 			isa = XCConfigurationList;
@@ -542,7 +552,7 @@
 				2C1778951CE0A9EA00BB8AD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -60,8 +60,8 @@ struct HoleParticle : IEffect {
         area_radius(area_radius),
         particle_radius (Random(area_radius/200, area_radius/10)),
         inital_phase    (Random(0.0, 2*Math::Pi)),
-        omega           (Random(0.0, 2*Math::Pi)),
         opacity         (Random(0.3, 0.8)),
+        omega           (Random(0.0, 2*Math::Pi)),
         lifespan        (Random(5.0, 8.0))
     {}
     bool update(double t) override

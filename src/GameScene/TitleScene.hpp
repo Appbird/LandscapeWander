@@ -1,6 +1,6 @@
 #pragma once
 #include <Siv3D.hpp>
-#include "../utility.hpp"
+#include "../App.hpp"
 
 class TitleScene : public App::Scene {
     public:

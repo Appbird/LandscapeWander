@@ -47,17 +47,18 @@ public:
         bool jump_pressed;
     };
 public:
+    // #TODO: ManagerにInitを定義する。
     using AnimationManager = AnimationsManager<PlayerAnimationState>;
     
     Effect effect;
 
-    Texture run     { TextureAsset(U"player/run") };
-    Texture jump    { TextureAsset(U"player/jump") };
-    Audio run_se    { AudioAsset(U"se/run") };
-    Audio jump_se   { AudioAsset(U"se/jump") };
-    Audio rocket_se { AudioAsset(U"se/rocket") };
-    Audio land_se   { AudioAsset(U"se/land") };
-    Audio sliding_se{ AudioAsset(U"se/sliding") };
+    Texture run;
+    Texture jump;
+    Audio run_se;
+    Audio jump_se;
+    Audio rocket_se;
+    Audio land_se;
+    Audio sliding_se;
 
     Transform transform_;
     SizeF character_size_{3.6, 3.6};
@@ -129,17 +130,22 @@ private:
     void occur_rundust_effect(const double rundust_interval_time);
 
 public:
-    Player(Vec2 position):
-        animation_  (prepare_animation())
-    {
-        run_se.setLoop(true);
-        transform_.position = position;
-        animation_.change_animation(Waiting);
-    }
-    
     void update(Effect& effect);
     void resolve_collision(const Array<CollisionEvent>& collisionEvents, const Array<Line>& lines);
     void draw() const;
+    void Init(const Vec2& position) {
+        run     = { TextureAsset(U"player/run") };
+        jump    = { TextureAsset(U"player/jump") };
+        run_se  = { AudioAsset(U"se/run") };
+        jump_se = { AudioAsset(U"se/jump") };
+        rocket_se   = { AudioAsset(U"se/rocket") };
+        land_se     = { AudioAsset(U"se/land") };
+        sliding_se  = { AudioAsset(U"se/sliding") };
+        transform_.position = position;
+        animation_ = prepare_animation();
+        run_se.setLoop(true);
+        animation_.change_animation(Waiting);
+    }
     
     Line collision_line() const;
     RectF collision_box() const;

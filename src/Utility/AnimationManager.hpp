@@ -12,12 +12,12 @@ private:
     
 public:
     /// @param animations アニメーションの列挙子とAnimationの組を列挙
+    AnimationsManager(){}
     AnimationsManager(
         std::map<AnimationState, Animation>&& animations_
     ):
         animations(animations_)
     {}
-    
     /// @param 現在再生されているアニメーションを返す。
     const Animation& current_animation() const{
         return animations.at(animation_state);

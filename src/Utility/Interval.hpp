@@ -1,4 +1,5 @@
-#include <assert.h>
+# pragma once
+# include <assert.h>
 
 template<typename T>
 struct Interval {
