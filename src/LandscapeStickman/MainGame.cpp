@@ -61,7 +61,8 @@ void MainGame::Init() {
         backgrounds.push_back(Image{U"../assets/test/page" + Format(page_number) + U"/ex" + Format(i) + U"." + extention});
     }
 
-    backgrounds_offset = Array<Vec2>(backgrounds.size());
+    backgrounds_offset  = Array<Vec2>(backgrounds.size());
+    collision_events.resize(backgrounds.size());
     for (const Image& background : backgrounds){
         lines_of_stages.push_back(extract_stageline_from(background));
         background_textures.emplace_back(background);
@@ -130,6 +131,7 @@ void MainGame::update() {
         case Failed:
         case Success:
         {
+            Console << U"A";
             const ScopedColorMul2D colorMul{ ColorF{1, Min(1.0, game_start_stopwatch.sF())} };
             player.update(effect);
             // 背景ループなど
@@ -151,8 +153,10 @@ void MainGame::update() {
                 }
             }
             
+            Console << U"B";
             // 衝突情報の更新
             {
+                assert(collision_events.size() == lines_of_stages.size());
                 for (size_t i = 0; i < lines_of_stages.size(); i++) {
                     collision_events[i].clear();
                     // #FIXME
@@ -174,6 +178,7 @@ void MainGame::update() {
             }
             blackhole.update();
 
+            Console << U"C";
             const Vec2 scroll_offset = Clamp(
                 blackhole.position - Vec2{Camera_world_Rect.x/2 - blackhole.basic_size.x / 2, 0},
                 Vec2::Zero() + Camera_world_Rect/2,
@@ -198,6 +203,7 @@ void MainGame::update() {
             }
             
             
+            Console << U"D";
             {
                 const Transformer2D centerized{Mat3x2::Translate(Scene::Center())};
                 const Transformer2D scaled{Mat3x2::Scale(pixel_per_meter)};
@@ -225,6 +231,7 @@ void MainGame::update() {
             
             Bloom(bloom);
 
+            Console << U"E";
             // UI関連
             {
                 if (gamestate != Playing) {
@@ -239,6 +246,8 @@ void MainGame::update() {
                     );
                 }
             }
+
+            Console << U"F";
         }
         
     }
