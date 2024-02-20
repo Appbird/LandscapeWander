@@ -6,7 +6,9 @@
 # include "CollisionEvent.hpp"
 # include "image_process.hpp"
 # include "Blackhole.hpp"
-
+# include "Bloom.hpp"
+# include "utility.hpp"
+# include "RegisterResource.hpp"
 
 // Completed #TODO リソースを全てリソースマネジャに管理を統一させる
     // ref. https://zenn.dev/reputeless/books/siv3d-documentation/viewer/tutorial-asset
@@ -17,48 +19,6 @@
     // ref. https://unityroom.com/games/bgmemory
 // #TODO シーン遷移を丁寧にする
 
-Vec2 Clamp(const Vec2& value, const Vec2& min, const Vec2& max) {
-    return Vec2{
-        value.x, // Clamp(value.x, min.x, max.x),
-        Clamp(value.y, min.y, max.y),
-    };
-}
-
-struct BloomTextures {
-    const RenderTexture blur1;
-    const RenderTexture internal1;
-    const RenderTexture blur4;
-    const RenderTexture internal4;
-    const RenderTexture blur8;
-    const RenderTexture internal8;
-    BloomTextures():
-        blur1{Scene::Size()},
-        internal1{Scene::Size()},
-        blur4{Scene::Size() / 4},
-        internal4{Scene::Size() / 4},
-        blur8{Scene::Size() / 8},
-        internal8{Scene::Size() / 8}
-    {}      
-};
-
-void Bloom(BloomTextures& bloom_texures) {
-    {
-        Shader::GaussianBlur(bloom_texures.blur1, bloom_texures.internal1, bloom_texures.blur1);
-        
-        Shader::Downsample(bloom_texures.blur1, bloom_texures.blur4);
-        Shader::GaussianBlur(bloom_texures.blur4, bloom_texures.internal4, bloom_texures.blur4);
-
-        Shader::Downsample(bloom_texures.blur4, bloom_texures.blur8);
-        Shader::GaussianBlur(bloom_texures.blur8, bloom_texures.internal8, bloom_texures.blur8);
-    }
-    {
-        const ScopedRenderStates2D blend{BlendState::Additive};
-        bloom_texures.blur4.resized(Scene::Size()).draw(ColorF{0.4});
-        bloom_texures.blur8.resized(Scene::Size()).draw(ColorF{0.5});
-    }
-
-}
-
 enum GameState {
     G_Ready,
     Playing,
@@ -66,32 +26,7 @@ enum GameState {
     Failed
 };
 
-
-FilePath asset_path(const String& path) {
-    const String assets_path = U"../assets";
-    return FileSystem::PathAppend(assets_path, path);
-}
-void RegisterResource() {
-    TextureAsset::Register(U"instructions/page1", asset_path(U"howto/page1.JPG"));
-    TextureAsset::Register(U"instructions/page2", asset_path(U"howto/page2.JPG"));
-    TextureAsset::Register(U"instructions/page3", asset_path(U"howto/page3.JPG"));
-
-    TextureAsset::Register(U"player/run",   asset_path(U"sprites/stickfigure_walk.png"));
-    TextureAsset::Register(U"player/jump",  asset_path(U"sprites/stickfigure_jump.png"));
-
-    AudioAsset::Register(U"se/run",     asset_path(U"se/running.wav"));
-    AudioAsset::Register(U"se/jump",    asset_path(U"se/jump.wav"));
-    AudioAsset::Register(U"se/land",    asset_path(U"se/land.wav"));
-    AudioAsset::Register(U"se/sliding", asset_path(U"se/sliding.mp3"));
-    AudioAsset::Register(U"se/rocket",  asset_path(U"se/rocket.mp3"));    
-    AudioAsset::Register(U"se/bighit",  asset_path(U"se/hit.mp3"));
-    
-    AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
-    AudioAsset::Register(U"bgm/title",  asset_path(U"music/予兆.mp3"));
-    AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
-}
-
-void game_main() {
+void GameMain() {
     // 背景の色を設定する
 	Scene::SetBackground(ColorF{ 0.1, 0.1, 0.1 });
     RegisterResource();
@@ -279,14 +214,13 @@ void game_main() {
                     
                     effect.update();
                     player.draw();
-                    /*
+                    
                     for (const Array<Line>& lines_of_stage:lines_of_stages) {
                         for (const Line& line : lines_of_stage) {
                             // #TODO ラインの描画方法について考える。
                             line.draw(0.1, HSV{120, 0.4, 1, 0.5+ 0.2 * Periodic::Sine0_1(2s)});
                         }
                     }
-                    */
                     blackhole.draw();
                     {
                         const ScopedRenderTarget2D bloom_target{bloom.blur1.clear(ColorF{0})};
