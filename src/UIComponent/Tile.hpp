@@ -6,7 +6,8 @@
 
 class TileButton
 {
-public:
+public: 
+    bool is_selected = false;
 
 	struct Palette
 	{
@@ -18,7 +19,7 @@ public:
 
 		ColorF borderColor2;
 	};
-
+    
 	TileButton() = default;
 
 	TileButton(const Icon& icon, int32 iconSize, const Font& font, double fontSize, const String& text, const RectF& rect, const Palette& palette)
@@ -65,7 +66,7 @@ public:
 			}
 		}
 
-		m_transitionPressed.update(m_pressed);
+		m_transitionPressed.update(is_selected);
 
 		return pushed;
 	}
@@ -118,4 +119,5 @@ private:
 	Palette m_palette;
 
 	bool m_pressed = false;
+
 };

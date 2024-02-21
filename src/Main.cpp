@@ -2,6 +2,7 @@
 # include "LandscapeStickman/MainGame.hpp"
 # include "LandscapeStickman/InstructionScene.hpp"
 # include "WalkDemo/MainGame.hpp"
+# include "Title/MainMenu.hpp"
 # include "AssetsRegister.hpp"
 # include "App.hpp"
 
@@ -16,6 +17,8 @@ void Main()
         (U"LandscapeStickman/InstructionScene");
     app.add<WalkDemo::MainGame>
         (U"WalkDemo/MainGame");
+    app.add<Title::TitleScene>
+        (U"Title");
     
     app.init(U"WalkDemo/MainGame", 1000);
     while (System::Update()) {

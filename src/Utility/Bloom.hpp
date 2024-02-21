@@ -17,4 +17,4 @@ struct BloomTextures {
     {}      
 };
 
-void Bloom(const BloomTextures& bloom_texures);
+void Bloom(const BloomTextures& bloom_texures, bool additive = true);

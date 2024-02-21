@@ -18,8 +18,11 @@ private:
     Audio bgm_game;
     Image background;
     Texture background_texture;
+
     Effect effect;
     BloomTextures bloom_textures;
+    BloomTextures whole_blur_textures;
+    Rect configure_rect;
 
     GameState gamestate = Playing;
     Vec2 backgrounds_offset;
@@ -27,11 +30,22 @@ private:
     Array<CollisionEvent> collision_events;
     
     Player player;
+    double alpha = 0.5;
 
     bool displaying_line;
+    bool configure_mode = false;
+    bool some_param_modified = false;
+    bool already_drawn = false;
     
-    Stopwatch game_start_stopwatch{StartImmediately::No};
+    String file_path;
 
+    Stopwatch game_start_stopwatch{StartImmediately::No};
+    Transition board_transition{0.5s, 0.5s};
+
+    // 写真の横幅がゲーム空間の何メートルを占めるかを表す。(mを単位とする。)
+    Vec2 player_inital_place() const {
+        return {Photo_world_Rect().x/2, Photo_world_Rect().y/4};
+    }
     // 写真の横幅がゲーム空間の何メートルを占めるかを表す。(mを単位とする。)
     double photo_world_width() const {
         return 60;
@@ -46,7 +60,7 @@ private:
     }
     // ゲーム空間中でのカメラ座標系の背景の高さをm単位で返す。
     double camera_world_height() const {
-        return Photo_world_Rect().y /1.5;
+        return Photo_world_Rect().y / 1.5;
     }
     // 写真の1ピクセルの幅がゲーム空間の何メートルを占めるかを返す。
     double photo_meter_per_pixel() const {
@@ -62,10 +76,14 @@ private:
 
     // 現在のスクロール量を返す。
     Vec2 scroll_offset() const;
+    void set_stage();
 public:
     MainGame(const InitData& init);
     void update() override;
     void draw() const override;
+    void draw_world() const;
+    void save_world() const;
+    void draw_UI();
     ~MainGame() {
         bgm_game.stop();
     }

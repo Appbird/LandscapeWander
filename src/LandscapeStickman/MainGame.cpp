@@ -131,7 +131,7 @@ void MainGame::update() {
     
     if (is_game_end() and not game_end_stopwatch.isRunning()) { std::cout << "A" << std::endl; game_end_stopwatch.start(); }
     if (game_end_stopwatch.s() >= 6) {
-        changeScene(U"LandscapeStickman/InstructionScene", 3000);
+        changeScene(U"Title", 3000);
     }
 }
 
