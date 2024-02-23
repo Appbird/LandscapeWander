@@ -4,6 +4,8 @@
 #include "image_process.hpp"
  
 static double segment_distance(double l1, double r1, double l2, double r2) { 
+    if (r1 < l1) { return segment_distance(r1, l1, l2, r2); }
+    if (r2 < l2) { return segment_distance(l1, r1, r2, l2); }
     return std::max(0.0, std::max(l1, l2) - std::min(r2, r1));
 }
 
@@ -28,23 +30,24 @@ static Array<Line> vectorCvVec4_to_arrayLine(const std::vector<cv::Vec4i>& lines
             {line[0], line[1]}, {line[2], line[3]}
         });
     }
+    return lines;
 }
 
 static Array<Line> obtain_lines_from_pictures(
     const Image& img,
     const double alpha
 ) {
-    cv::Mat img_grayed_mat = image_to_gray_mat(img);
-
     constexpr float canny_min = 30;
     constexpr float canny_max = 100; 
+    constexpr float elected_coef = 0.01;
+    constexpr double min_line_length_coef   = 1.0/30;
+    constexpr double max_line_gap_coef      = 1.0/15;
+
+    cv::Mat img_grayed_mat = image_to_gray_mat(img);
     cv::Mat cannyed;
     cv::Canny(img_grayed_mat, cannyed, canny_min, canny_max);
     const int features_point_count = cv::countNonZero(cannyed);
 
-    constexpr float elected_coef = 0.01;
-    constexpr double min_line_length_coef   = 1.0/30;
-    constexpr double max_line_gap_coef      = 1.0/15;
     std::vector<cv::Vec4i> lines_from_pictures;
     const auto threshold = int32_t(features_point_count * elected_coef);
     cv::HoughLinesP(
@@ -57,8 +60,10 @@ static Array<Line> obtain_lines_from_pictures(
     return vectorCvVec4_to_arrayLine(lines_from_pictures);
 }
 
-static Array<Line> combine_lines(const Array<Line>& given_lines, const double alpha) {
-    constexpr float threshold_q = 10;
+static Array<Line> combine_lines(const Array<Line>& given_lines, const double image_width, const double alpha) {
+    constexpr double angle_threshold = M_PI / 12;
+    constexpr double transverse_threshold = 10;
+    constexpr double longitudinal_threshold = 20;
 
     Array<Line> lines = given_lines;
     // line_used[i] == true: まだ線iが統合されていない
@@ -72,28 +77,37 @@ static Array<Line> combine_lines(const Array<Line>& given_lines, const double al
             
             const Line& L1 = lines[i];
             const Line& L2 = lines[j];
-            // 傾きが十分に似ている曲線だけに注目する。
-            if (abs(L1.vector().getAngle() - L2.vector().getAngle()) >= M_PI / 12) { continue; }
-
+            // 傾きが十分に似ている2線分だけに注目する。
+            // 差が0か2πに近い2線分だけに着目する。
+            if (
+                M_PI - abs(M_PI - abs(L1.vector().getAngle() - L2.vector().getAngle())) > angle_threshold
+            ) { continue; }
             // L2の端点をL1の直線上に移動させる。
             // この地点で移動距離が十分に小さいもののみを統合対象とする。
             const Vec2 L1_direction = L1.vector().normalized();
             // L2をL1へ統合した後の位置。ただし、L1とL2の距離が十分に遠ければ、それらは統合しない。
             const Vec2 L2b_prime = (L2.begin - L1.begin).dot(L1_direction) * L1_direction + L1.begin;
             const Vec2 L2e_prime = (L2.end - L1.begin).dot(L1_direction) * L1_direction + L1.begin;
+            
+            // 横方向に離れすぎていない線分のみを結合する。
+            const double& x = transverse_threshold;
             if (
-                (L2b_prime - L2.begin).lengthSq() > threshold_q*threshold_q
-                or (L2e_prime - L2.end).lengthSq() > threshold_q*threshold_q
+                (L2b_prime - L2.begin).lengthSq() > x*x or (L2e_prime - L2.end).lengthSq() > x*x
             ) {
                 continue;
             }
-            // L1軸への正射影
+            // 縦方向に離れすぎていない線分のみを結合する。
             const auto projection = [&](const Vec2& v) -> double { return (v - L1.begin).dot(L1_direction); };
+            const double& y = longitudinal_threshold;
+            Console << segment_distance(
+                    projection(L1.begin), projection(L1.end),
+                    projection(L2.begin), projection(L2.end)
+                );
             if (
                 segment_distance(
                     projection(L1.begin), projection(L1.end),
-                    projection(L2b_prime), projection(L2e_prime)
-                ) > threshold_q
+                    projection(L2.begin), projection(L2.end)
+                ) > y
             ) {
                 continue;
             }
@@ -119,6 +133,7 @@ static Array<Line> combine_lines(const Array<Line>& given_lines, const double al
     for (size_t i = 0; i < line_count; i++) {
         if (line_used[i]) { tied_lines.push_back(lines[i]); }
     }
+    return tied_lines;
 }
 
 Array<Line> extract_stageline_from(const Image& image, const double alpha) {
@@ -126,8 +141,6 @@ Array<Line> extract_stageline_from(const Image& image, const double alpha) {
     constexpr int d = 10;
     constexpr double sigma_color = 90;
     constexpr double sigma_space = 90;
-
-    constexpr int extended_length = 90;
 
     // 処理負荷の軽減のため、画像を小さくする
     constexpr int after_height = 300;
@@ -140,13 +153,14 @@ Array<Line> extract_stageline_from(const Image& image, const double alpha) {
     }
     // # 特徴線を抽出する。
     Array<Line> lines = obtain_lines_from_pictures(image_scaled, alpha);
-    Array<Line> tied_lines = combine_lines(lines, alpha);
-    
-    Rect bottom{{0, 0}, {image_scaled.width(), image_scaled.height()}};
-    // 底に線を追加
-    tied_lines.emplace_back(bottom.bottom());
-
+    Console << U"tied_lines: " << lines.size();
+    Array<Line> tied_lines = combine_lines(lines, image_scaled.width(), alpha);
     Console << U"tied_lines: " << tied_lines.size();
+    
+    Rect image_region{{0, 0}, {image_scaled.width(), image_scaled.height()}};
+    // 底に線を追加
+    tied_lines.emplace_back(image_region.bottom());
+
 
     // もともと画像サイズを圧縮していたので、得られた線分の座標を画像座標系のそれに戻す。
     for (Line& line : tied_lines) {

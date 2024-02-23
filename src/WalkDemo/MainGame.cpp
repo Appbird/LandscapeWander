@@ -109,22 +109,23 @@ void MainGame::draw_UI() {
         FontAsset(U"UIFont")(U"パラメータ設定").draw(25, current_conrect.stretched(-5).tl(), Palette::Black);
         
         RectSlicer rs { current_conrect.stretched(-5), RectSlicer::Axis::Y_axis };
+        Rect rect;
         
-        Rect rect1 = rs.from(0.2).to(0.3);
-        if (SimpleGUI::Slider(U"α {:.2f}"_fmt(this->alpha), this->alpha, rect1.tl(), rect1.w/4, rect1.w*3/4, configure_mode)) {
+        rect = rs.from(0.2).to(0.3);
+        if (SimpleGUI::Slider(U"α {:.2f}"_fmt(this->alpha), this->alpha, rect.tl(), rect.w/4, rect.w*3/4, configure_mode)) {
             some_param_modified = true;
         }
 
-        Rect rect2 = rs.to(0.4);
-        if (SimpleGUI::Button(U"写真をロードする", rect2.tl(), rect2.w, configure_mode)) {
+        rect = rs.to(0.4);
+        if (SimpleGUI::Button(U"写真をロードする", rect.tl(), rect.w, configure_mode)) {
             if (const auto path = Dialog::OpenFile({ FileFilter::AllImageFiles() }, U"../assets/test", U"ステージファイルをえらぼう")) {
                 file_path = *path;
                 some_param_modified = true;
             }
         }
 
-        Rect rect3 = rs.to(0.5);
-        if (SimpleGUI::Button(U"検出結果を保存する", rect2.tl(), rect2.w, configure_mode)) {
+        rect = rs.to(0.5);
+        if (SimpleGUI::Button(U"検出結果を保存する", rect.tl(), rect.w, configure_mode)) {
             save_world();
         }
 
