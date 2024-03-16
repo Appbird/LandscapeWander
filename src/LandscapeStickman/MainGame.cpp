@@ -147,12 +147,14 @@ void MainGame::draw() const
         
         effect.update();
         player.draw();
+        /*
         for (const Array<Line>& lines_of_stage:lines_of_stages) {
             for (const Line& line : lines_of_stage) {
                 // #TODO ラインの描画方法について考える。
                 line.draw(0.1, HSV{120, 0.4, 1, 0.5+ 0.2 * Periodic::Sine0_1(2s)});
             }
         }
+        */
         blackhole.draw();
         {
             const ScopedRenderTarget2D bloom_target{bloom_textures.blur1.clear(ColorF{0})};

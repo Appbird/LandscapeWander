@@ -20,7 +20,7 @@ Vec2 MainGame::scroll_offset() const {
 void MainGame::set_stage() {
     background = Image{file_path};
 
-    lines_of_stage = extract_stageline_from(background);
+    lines_of_stage = extract_stageline_from(background, alpha, beta, gamma);
     background_texture = Texture{background};
     for (Line& line : lines_of_stage) {
         line.begin  *= photo_meter_per_pixel();
@@ -32,7 +32,7 @@ void MainGame::set_stage() {
 MainGame::MainGame(const InitData& init):
     IScene{init},
     bgm_game{AudioAsset(U"bgm/walk-demo")},
-    file_path(U"../assets/test/page3/ex1.png")
+    file_path(U"../assets/test/page3/ex2.png")
 {
     assert(bgm_game);
     // 背景の色を設定する
@@ -110,13 +110,22 @@ void MainGame::draw_UI() {
         
         RectSlicer rs { current_conrect.stretched(-5), RectSlicer::Axis::Y_axis };
         Rect rect;
+        rs.from(0.2);
         
-        rect = rs.from(0.2).to(0.3);
-        if (SimpleGUI::Slider(U"α {:.2f}"_fmt(this->alpha), this->alpha, rect.tl(), rect.w/4, rect.w*3/4, configure_mode)) {
-            some_param_modified = true;
-        }
+        const auto param_slider_setting = [&](const double position, const String& description, double& variable) -> void {
+            rect = rs.to(position);
+            FontAsset(U"UIFont")(description).draw(20, rect.leftCenter(), Palette::Black);
+            rect = rs.to(position + 0.1);
+            if (SimpleGUI::Slider(U"{:.2f}"_fmt(variable), variable, rect.tl(), rect.w/5, rect.w*4/5, configure_mode)) {
+                some_param_modified = true;
+            }
+        };
 
-        rect = rs.to(0.4);
+        param_slider_setting(0.3, U"α: 検出対象のコントラストの閾値", this->alpha);
+        param_slider_setting(0.5, U"β: 検出する線分の微細さ", this->beta);
+        param_slider_setting(0.7, U"γ: 線分の結合度", this->gamma);
+
+        rect = rs.to(0.9);
         if (SimpleGUI::Button(U"写真をロードする", rect.tl(), rect.w, configure_mode)) {
             if (const auto path = Dialog::OpenFile({ FileFilter::AllImageFiles() }, U"../assets/test", U"ステージファイルをえらぼう")) {
                 file_path = *path;
@@ -124,17 +133,20 @@ void MainGame::draw_UI() {
             }
         }
 
-        rect = rs.to(0.5);
+        rect = rs.to(1.0);
         if (SimpleGUI::Button(U"検出結果を保存する", rect.tl(), rect.w, configure_mode)) {
             save_world();
         }
 
-        if (not current_conrect.mouseOver() and MouseL.up()) { configure_mode = false; }
+        if (not current_conrect.mouseOver() and MouseL.up()) {
+            if (some_param_modified) { set_stage(); }
+            configure_mode = false;
+        }
     }
 }
 
 void MainGame::save_world() const {
-    Array<Line> lines_of_stage = extract_stageline_from(background);
+    Array<Line> lines_of_stage = extract_stageline_from(background, alpha, beta, gamma);
     Image background_texture = background.cloned();
     {
         for (const Line& line : lines_of_stage) {
@@ -147,7 +159,6 @@ void MainGame::save_world() const {
 void MainGame::draw() const {
     if (not already_drawn) { draw_world(); }
 }
-
 }
 
 // Completed #TODO リソースを全てリソースマネジャに管理を統一させる

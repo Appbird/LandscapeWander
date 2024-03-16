@@ -1,4 +1,5 @@
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include <algorithm>
 #include <iterator>
 #include "image_process.hpp"
@@ -7,6 +8,12 @@ static double segment_distance(double l1, double r1, double l2, double r2) {
     if (r1 < l1) { return segment_distance(r1, l1, l2, r2); }
     if (r2 < l2) { return segment_distance(l1, r1, r2, l2); }
     return std::max(0.0, std::max(l1, l2) - std::min(r2, r1));
+}
+
+constexpr double base_param = 0.50;
+static double lerp(const double x, const double y0, const double x0) {
+    assert(0 <= x and x <= 1);
+    return y0 / x0 * (x - x0) + y0;
 }
 
 static cv::Mat image_to_gray_mat(const Image& image_scaled) {
@@ -35,35 +42,40 @@ static Array<Line> vectorCvVec4_to_arrayLine(const std::vector<cv::Vec4i>& lines
 
 static Array<Line> obtain_lines_from_pictures(
     const Image& img,
-    const double alpha
+    const double alpha,
+    const double beta
 ) {
-    constexpr float canny_min = 30;
-    constexpr float canny_max = 100; 
-    constexpr float elected_coef = 0.01;
-    constexpr double min_line_length_coef   = 1.0/30;
-    constexpr double max_line_gap_coef      = 1.0/15;
+    assert(0 <= alpha and alpha <= 1);
+    assert(0 <= beta and beta <= 1);
 
+    const int32_t height = img.height();
+    const float canny_min = lerp(alpha, 29, base_param) + 1;
+    const float canny_max = lerp(alpha, 99, base_param) + 1; 
+    const double min_line_length   = height * lerp(1-beta, 1.0/10, base_param);
+    const double max_line_gap      = height * lerp(1-beta, 1.0/20, base_param);
+    
     cv::Mat img_grayed_mat = image_to_gray_mat(img);
     cv::Mat cannyed;
     cv::Canny(img_grayed_mat, cannyed, canny_min, canny_max);
     const int features_point_count = cv::countNonZero(cannyed);
 
     std::vector<cv::Vec4i> lines_from_pictures;
-    const auto threshold = int32_t(features_point_count * elected_coef);
+    const auto threshold = height / 10;
     cv::HoughLinesP(
         cannyed, lines_from_pictures,
         1, M_PI/180,
-        threshold,
-        img.width() * min_line_length_coef,
-        img.width() * max_line_gap_coef
+        threshold, min_line_length, max_line_gap
     );
+    
     return vectorCvVec4_to_arrayLine(lines_from_pictures);
 }
 
-static Array<Line> combine_lines(const Array<Line>& given_lines, const double image_width, const double alpha) {
-    constexpr double angle_threshold = M_PI / 12;
-    constexpr double transverse_threshold = 10;
-    constexpr double longitudinal_threshold = 20;
+static Array<Line> combine_lines(const Array<Line>& given_lines, const int32_t image_height, const double gamma) {
+    assert(0 < gamma and gamma < 1);
+
+    const double angle_threshold = lerp(gamma, M_PI / 4, base_param);
+    const double transverse_threshold = image_height * lerp(gamma, 0.04, base_param);
+    const double longitudinal_threshold = image_height *  lerp(gamma, 0.02, base_param);
 
     Array<Line> lines = given_lines;
     // line_used[i] == true: まだ線iが統合されていない
@@ -99,10 +111,6 @@ static Array<Line> combine_lines(const Array<Line>& given_lines, const double im
             // 縦方向に離れすぎていない線分のみを結合する。
             const auto projection = [&](const Vec2& v) -> double { return (v - L1.begin).dot(L1_direction); };
             const double& y = longitudinal_threshold;
-            Console << segment_distance(
-                    projection(L1.begin), projection(L1.end),
-                    projection(L2.begin), projection(L2.end)
-                );
             if (
                 segment_distance(
                     projection(L1.begin), projection(L1.end),
@@ -136,14 +144,27 @@ static Array<Line> combine_lines(const Array<Line>& given_lines, const double im
     return tied_lines;
 }
 
-Array<Line> extract_stageline_from(const Image& image, const double alpha) {
-    constexpr int N = 5;
-    constexpr int d = 10;
-    constexpr double sigma_color = 90;
-    constexpr double sigma_space = 90;
+static void save_line_detection(const Image& image, const Array<Line>& lines) {
+    Image background_texture = image.cloned();
+    {
+        for (const Line& line : lines) {
+            line.overwrite(background_texture, 2, HSV{120, 0.4, 1, 1});
+        }
+    }
+    background_texture.savePNG(U"../result/final.png");
+}
+
+Array<Line> extract_stageline_from(const Image& image, const double alpha, const double beta, const double gamma) {
+    assert(0 <= alpha and alpha <= 1);
+    assert(0 <= beta and beta <= 1);
+    assert(0 <= gamma and gamma <= 1);
+    constexpr int N = 3;
+    constexpr int d = 8;
+    const double sigma_color = lerp(alpha, 90, base_param);
+    const double sigma_space = lerp(alpha, 90, base_param);
 
     // 処理負荷の軽減のため、画像を小さくする
-    constexpr int after_height = 300;
+    const int after_height = 600;
     const double f = double(after_height) / image.height();
     Image image_scaled = image.scaled(f);
 
@@ -151,10 +172,11 @@ Array<Line> extract_stageline_from(const Image& image, const double alpha) {
     for (int i = 0; i < N; i++) {
         image_scaled.bilateralFilter(d, sigma_color, sigma_space);
     }
+
     // # 特徴線を抽出する。
-    Array<Line> lines = obtain_lines_from_pictures(image_scaled, alpha);
-    Console << U"tied_lines: " << lines.size();
-    Array<Line> tied_lines = combine_lines(lines, image_scaled.width(), alpha);
+    Array<Line> lines = obtain_lines_from_pictures(image_scaled, alpha, beta);
+    Console << U"detected lines: " << lines.size();
+    Array<Line> tied_lines = combine_lines(lines, after_height, gamma);
     Console << U"tied_lines: " << tied_lines.size();
     
     Rect image_region{{0, 0}, {image_scaled.width(), image_scaled.height()}};
@@ -167,5 +189,6 @@ Array<Line> extract_stageline_from(const Image& image, const double alpha) {
         line.begin /= f;
         line.end /= f;
     }
+    
     return tied_lines;
 }

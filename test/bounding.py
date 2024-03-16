@@ -3,8 +3,10 @@ from types import NoneType
 import cv2
 import numpy as np
 from numpy.linalg import norm
-from math import pi, atan2
+from math import pi, atan2, sqrt
 from sys import argv
+import time
+
 
 def arg(line:tuple[int, int, int, int]):
     """
@@ -38,38 +40,38 @@ path = "./test/out/bounding/"
 # 使用例
 img = cv2.imread(f'./test/media/{argv[1]}')
 file_name = argv[1].split('.')[0]
-width = img.shape[0]
+height = img.shape[0]
 
+time_start = time.time();
 # 対象物体の濃さ
-alpha = 0.38
+alpha = 0.55
 # 得られる線分の微細さ
-beta = 0.6
+beta = 0.90
 # 線分の集約度合い
-gamma = 0.5
+gamma = 0.10
 
 assert 0 <= alpha <= 1
 assert 0 <= beta <= 1
 base_param = 1/2
-N = 5
-d = 10
+N = 3
+d = 8
 sigma_Color = lerp(alpha, 90, base_param)
 sigma_Space = lerp(alpha, 90, base_param)
 
 canny_min = lerp(alpha, 30, base_param)
 canny_max = lerp(alpha, 100, base_param)
 
-after_width = 400
+after_height = 600
 
-elected_coef = lerp(alpha, 0.007, base_param)
-minLineLength_coef = lerp(1-beta, 1/90, base_param)
-maxLineGap_coef = lerp(1-beta, 1/30, base_param)
+minLineLength_coef = lerp(1-beta, 1/10, base_param)
+maxLineGap_coef = lerp(1-beta, 1/20, base_param)
 
 
 angle_threshold = lerp(gamma, pi / 4, base_param)
-transverse_threshold = after_width * lerp(gamma, 0.03, base_param)
-longitudinal_threshold = after_width * lerp(gamma, 0.03, base_param)
+transverse_threshold = after_height * lerp(gamma, 1/10, base_param)
+longitudinal_threshold = after_height * lerp(gamma, 1/20, base_param)
 
-f = after_width / width
+f = after_height / height
 # 下げすぎると木の障害物などに大きく引っ張られやすくなる
 img = cv2.resize(img, None, fx=f, fy=f)
 
@@ -85,14 +87,17 @@ edge_img = cv2.Canny(img_gray, canny_min, canny_max)
 
 feature_point_count = cv2.countNonZero(edge_img)
 # 確率的ハフ変換
-houghline_threshold = int(feature_point_count * elected_coef)
-houghline_minline_gap = img.shape[1] * minLineLength_coef
-houghline_maxline_gap = img.shape[1] * maxLineGap_coef
+houghline_threshold = int(after_height/10)
+print(f"houghline_threshold:{houghline_threshold}")
+houghline_minline_gap = after_height * minLineLength_coef
+houghline_maxline_gap = after_height * maxLineGap_coef
 lines = cv2.HoughLinesP(edge_img, 1, np.pi/180, houghline_threshold, None, houghline_minline_gap, houghline_maxline_gap)
 
 # 得られた線をタプルに変換する。
 if (type(lines) == NoneType):
     print("no line obtained")
+    cv2.imwrite(path + f"{file_name}-birateral.png",    img)
+    cv2.imwrite(path + f"{file_name}-edge.png",         edge_img)
     exit(0)
 
 line_count = len(lines)
@@ -102,7 +107,7 @@ lines_in_list:list[tuple[int, int, int, int]] = list(zip(lines[:, 0, 0], lines[:
 lines_used:list[bool] = [True for _ in lines_in_list]
 for x1,y1,x2,y2 in lines_in_list:
     cv2.line(img_houghline, (x1, y1), (x2, y2), (0, 255, 0), 2)
-
+    
 for i, j in itertools.combinations(range(len(lines_in_list)), 2):
     # すでに結合されていた場合は無視
     if not lines_used[i] or not lines_used[j]:
@@ -148,7 +153,10 @@ print(f"reduced line count: {reduced_line_count}")
 for x1,y1,x2,y2 in [lines_in_list[i] for i in range(len(lines_in_list)) if lines_used[i]]:
     cv2.line(img_platform_line, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
+time_end = time.time()
+print(f"total time: {time_end - time_start:0.3f} [sec]")
+
 cv2.imwrite(path + f"{file_name}-birateral.png",    img)
 cv2.imwrite(path + f"{file_name}-edge.png",         edge_img)
 cv2.imwrite(path + f"{file_name}-houghline.png",    img_houghline)
-cv2.imwrite(path + f"{file_name}-{alpha:.2f}-{beta:.2f}-{gamma:.2f}platform.png",     img_platform_line)
+cv2.imwrite(path + f"{file_name}-platform.png",     img_platform_line)
