@@ -93,6 +93,7 @@ public:
     
     double running_momentum_percent() const;
 
+    void start_running();
     void stop_running();
 private:
     // --- 関連関数群 (状態更新に係るもの)---

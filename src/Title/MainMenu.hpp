@@ -42,7 +42,7 @@ class TitleScene : public App::Scene {
                     U"Landscape Stickman",
                     U"LandscapeStickman/InstructionScene",
                     U"ワームホールがあなたの街に現れた！\n棒人間ヒーローが街を救う！",
-                    U"[スペース]: チャージ, [^][->]: ジャンプ方向調節",
+                    U"[スペース]: チャージ, [↑][→]: ジャンプ方向調節",
                     { HSV{ 75, 0.75, 0.75 }, Palette::White, ColorF{ 1.0, 0.4 }, HSV{ 75, 0.5, 1 } }
                 },
                 { 
@@ -51,16 +51,16 @@ class TitleScene : public App::Scene {
                     U"Landscape Wander",
                     U"WalkDemo/MainGame",
                     U"Landscape Wanderの技術デモ",
-                    U"[スペース]: ジャンプ, [<-][->]: ダッシュ",
+                    U"[スペース]: ジャンプ, [←][→]: ダッシュ",
                     { HSV{ 125, 0.75, 0.75 }, Palette::White, ColorF{ 1.0, 0.4 }, HSV{ 125, 0.5, 1 } }
                 },
                 { 
                     0xF062E_icon,
                     U"Credits",
                     U"クレジット",
-                    U"LandscapeWander/InstructionScene",
+                    U"Credit",
                     U"この作品の制作に用いたもののリスト。",
-                    U"上下キー: スクロール",
+                    U"",
                     { HSV{ 175, 0.75, 0.75 }, Palette::White, ColorF{ 1.0, 0.4 }, HSV{ 175, 0.5, 1 } }
                 },
             };

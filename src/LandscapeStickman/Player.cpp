@@ -321,7 +321,7 @@ void Player::on_sliding(const InputInfo& info) {
             animation_.change_animation(Waiting);
         }
     }
-    on_brake(move_speed_ * 0.2, 0.6);
+    on_brake(move_speed_ * 0.2, 0.8);
 
     // 土埃エフェクト
     occur_rundust_effect(0.1);
@@ -331,6 +331,12 @@ void Player::on_brake(const double deacc_coef, const double charged_coef) {
     transform_.velocity.x -= deacc_coef * Scene::DeltaTime() * sign(transform_.velocity.x);
     charged = Min(charged + charged_coef * Scene::DeltaTime(), 1.0);
 }
+
+void Player::start_running() {
+    should_running = true;
+    transform_.velocity.x = 10;
+}
+
 
 void Player::stop_running() {
     should_running = false;

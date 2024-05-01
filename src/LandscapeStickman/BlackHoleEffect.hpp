@@ -52,24 +52,28 @@ struct HoleParticle : IEffect {
     const double opacity;
     const double omega;
     const double lifespan;
+    const Vec2 velocity;
     /**
      * @brief ブラックホールの吸い込みパーティクルに対応する。size_を覆う領域において、初期状態で見えないぎりぎりの楕円の大きさから始める。
      */
-    HoleParticle(const Vec2& center_, const double area_radius):
+    HoleParticle(const Vec2& center_, const double area_radius, const Vec2& velocity_):
         center(center_),
         area_radius(area_radius),
-        particle_radius (Random(area_radius/200, area_radius/10)),
+        particle_radius (Random(area_radius/200, area_radius/50)),
         inital_phase    (Random(0.0, 2*Math::Pi)),
         opacity         (Random(0.3, 0.8)),
-        omega           (Random(0.0, 2*Math::Pi)),
-        lifespan        (Random(5.0, 8.0))
+        omega           (Random(0.0, Math::Pi)),
+        lifespan        (Random(3.0, 8.0)),
+        velocity        (velocity_)
     {}
     bool update(double t) override
     {
+        const ScopedRenderStates2D blend{ BlendState::Additive };
         const double p = EaseInOutSine(t / lifespan);
-        const Vec2 point = center + area_radius * spiral(p, omega, inital_phase);
-        Circle(point, particle_radius).draw(ColorF{1, opacity/2});
-        Circle(point, particle_radius*0.7).draw(ColorF{1, opacity/2});
+        const Vec2 point = 
+            center + area_radius * spiral(p, omega, inital_phase) + velocity * t;
+        Circle(point, particle_radius).draw(ColorF{1.0, 0.6314, 0.1098, opacity * (1-p)});
+        Circle(point, particle_radius*0.7).draw(ColorF{1.0, 0.6314, 0.1098, opacity * (1-p)});
         return t < lifespan;
     }
 };

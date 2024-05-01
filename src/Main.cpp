@@ -3,12 +3,16 @@
 # include "LandscapeStickman/InstructionScene.hpp"
 # include "WalkDemo/MainGame.hpp"
 # include "Title/MainMenu.hpp"
+# include "Credits/Credit.hpp"
 # include "AssetsRegister.hpp"
 # include "App.hpp"
 
 void Main()
 {
     RegisterAssets();
+
+    Scene::SetResizeMode(ResizeMode::Keep);
+    Window::SetStyle(WindowStyle::Sizable);
 
     App app;
     app.add<LandscapeStickman::MainGame>
@@ -19,8 +23,10 @@ void Main()
         (U"WalkDemo/MainGame");
     app.add<Title::TitleScene>
         (U"Title");
+    app.add<Credits::HomeScene>
+        (U"Credit");
     
-    app.init(U"WalkDemo/MainGame", 1000);
+    app.init(U"Title", 1000);
     while (System::Update()) {
         if (not app.update()) { continue; }
     }

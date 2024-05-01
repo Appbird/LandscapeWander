@@ -84,6 +84,10 @@
         "clocale": "cpp",
         "deque": "cpp",
         "__availability": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "complex": "cpp",
+        "list": "cpp",
+        "queue": "cpp",
+        "span": "cpp"
     }
 }

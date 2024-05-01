@@ -1,13 +1,14 @@
-App
+App/empty.App
+App/engine
+App/example
+App/assets/test
+App/assets/music
+App/assets/se
+App/assets/howto
+App/assets/sprites
+test/media
 icon.icns
 build
 node_modules
-
-test/out
-test/media
-
-assets/test
-assets/music
-assets/se
 
 .DS_Store

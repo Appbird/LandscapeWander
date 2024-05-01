@@ -3,6 +3,7 @@
 #include "../Utility/CollisionEvent.hpp"
 #include "../Utility/bubble.hpp"
 #include "../Utility/Spark.hpp"
+#include "./WarmholeBody.hpp"
 
 namespace LandscapeStickman {
 
@@ -12,15 +13,21 @@ public:
     Vec2 position;
     Vec2 basic_size;
     Effect effect;
+    WarmholeSprite w_sprite;
+
+    
     const double cover_length = 0;
     // ブラックホールが限界に達して画面を覆い尽くすまでの時間
     double max_time = 15;
-    double time = max_time;
-    double received_energy;
+    double time = 500;
+    double received_energy = 0;
 
     Stopwatch effect_interval{StartImmediately::Yes};
     Stopwatch particle_interval{StartImmediately::Yes};
 
+    bool is_ready = false;
+    bool is_se_ring = false;
+    bool is_first_ring_appear = false;
     bool destroyed = false;
     double destroyed_count = 0;
     bool eliminated = false;
@@ -34,9 +41,10 @@ public:
         basic_size = (basic_size_);
         camera_rect = (camera_rect_);
     }
+    void appear(double seq_time);
     void update();
     Vec2 current_size() const {
-        double diameter = max_time/Max(time, 1e-6);
+        double diameter = max_time/Max(time, 1e-3);
         if (destroyed) {
             diameter *= (1 - EaseInBack(destroyed_count));
         }
@@ -46,16 +54,9 @@ public:
         return diameter * basic_size;
     }
     void draw() const {
-        if (not eliminated) {
-            Ellipse{collision_box()}
-            .draw(HSV{
-                20      + 30    * Periodic::Sine0_1(3s),
-                0.7     + 0.1   * Periodic::Sine0_1(2s),
-                0.70    + 0.05  * Periodic::Sine0_1(1s),
-                0.9 
-            })
-            .stretched(-current_size().x/5)
-            .drawFrame(current_size().x/10, HSV{40, 0.0, 1.0, 0.7});
+        if (is_se_ring and not eliminated) {
+            const RectF cb = collision_box();
+            w_sprite.Draw(cb.center(), cb.w / 1.5);
         }
         effect.update();
     }

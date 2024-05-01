@@ -2,7 +2,7 @@
 #include <Siv3D.hpp>
 
 static FilePath asset_path(const String& path) {
-    const String assets_path = U"../assets";
+    const String assets_path = U"./assets";
     return FileSystem::PathAppend(assets_path, path);
 }
 
@@ -20,11 +20,12 @@ static void RegisterAssets() {
     AudioAsset::Register(U"se/sliding", asset_path(U"se/sliding.mp3"));
     AudioAsset::Register(U"se/rocket",  asset_path(U"se/rocket.mp3"));    
     AudioAsset::Register(U"se/bighit",  asset_path(U"se/hit.mp3"));
+    AudioAsset::Register(U"se/gravity",     asset_path(U"se/gravity_sound.mp3"));
     
     AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
     AudioAsset(U"bgm/game").setLoop(true);
     AudioAsset::Register(U"bgm/walk-demo",    asset_path(U"music/Clarity_of_My_Sight.mp3"));
-    AudioAsset(U"bgm/game").setLoop(true);
+    AudioAsset(U"bgm/walk-demo").setLoop(true);
     AudioAsset::Register(U"bgm/instruction",  asset_path(U"music/予兆.mp3"));
     AudioAsset(U"bgm/instruction").setLoop(true);
     

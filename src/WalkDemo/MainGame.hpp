@@ -41,6 +41,7 @@ private:
     String file_path;
 
     Stopwatch game_start_stopwatch{StartImmediately::No};
+    Stopwatch stop_time_stopwatch{StartImmediately::Yes};
     Transition board_transition{0.5s, 0.5s};
 
     // ゲーム空間中での写真背景の大きさをm単位で返す。
@@ -72,7 +73,7 @@ private:
     }
     // 写真の横幅がゲーム空間の何メートルを占めるかを表す。(mを単位とする。)
     Vec2 player_inital_place() const {
-        return {Photo_world_Rect().x/2, Photo_world_Rect().y/4};
+        return {Photo_world_Rect().x/2, Photo_world_Rect().y/2};
     }
     // 現在のスクロール量を返す。
     Vec2 scroll_offset() const;

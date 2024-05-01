@@ -32,7 +32,7 @@ void MainGame::set_stage() {
 MainGame::MainGame(const InitData& init):
     IScene{init},
     bgm_game{AudioAsset(U"bgm/walk-demo")},
-    file_path(U"../assets/test/page3/ex2.png")
+    file_path(U"./assets/test/page3/ex2.png")
 {
     assert(bgm_game);
     // 背景の色を設定する
@@ -67,6 +67,11 @@ void MainGame::update() {
             some_param_modified = false;
         }
     }
+    if (KeyR.down()) {
+        player.transform_.position = this->player_inital_place();
+        player.transform_.velocity = Vec2::Zero();
+    }
+    if (configure_mode or abs(player.transform_.velocity.x) > 0.1) { stop_time_stopwatch.restart(); }
 
     board_transition.update(configure_mode);
     draw_world();
@@ -102,6 +107,15 @@ void MainGame::draw_world() const {
 }
 void MainGame::draw_UI() {
     // UI関連
+    if (stop_time_stopwatch.s() >= 4) {
+        const double opacity = std::min(double(stop_time_stopwatch.ms() - 4000)/1000, 1.0);
+        const ScopedColorMul2D scm{1, 1, 1, opacity}; 
+        const Rect info_rect = cliped_Y(Scene::Rect(), 0.75, 0.95);
+        info_rect.draw(ColorF{0, 0, 0, 0.5});
+        FontAsset(U"UIFont")(U"[A] 検出した線の表示切替, [C] パラメータ設定 [R] やりなおし \n[←↑↓→]: 移動, [スペース]: ジャンプ")
+        .draw(20, Arg::center = info_rect.center(), Palette::White);
+    }
+
     const double t = 1 - EaseInOutExpo(board_transition.value());
     if (configure_mode or t > 0) {
         const Rect current_conrect = configure_rect.movedBy(configure_rect.w * 1.5 * t, 0);
@@ -153,7 +167,7 @@ void MainGame::save_world() const {
             line.overwrite(background_texture, 2, HSV{120, 0.4, 1, 1});
         }
     }
-    background_texture.savePNG(U"../assets/test/result/" + FileSystem::BaseName(file_path) + U".png");
+    background_texture.savePNG(U"./assets/test/result/" + FileSystem::BaseName(file_path) + U".png");
 }
 
 void MainGame::draw() const {
