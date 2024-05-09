@@ -1,4 +1,5 @@
 import itertools
+from types import NoneType
 import cv2
 import numpy as np
 from cv2.typing import MatLike
@@ -6,8 +7,6 @@ from numpy.linalg import norm
 from math import pi
 from sys import argv
 import time
-
-import matplotlib.pyplot as plt
 
 from utility import *
 
@@ -39,15 +38,15 @@ def draw_current_postprocess(
     return cv2.waitKey(waiting_interval)
 
 def preprocess(img:MatLike, alpha:float) -> MatLike:
-    N = 3
-    d = 8
+    N = 6
+    d = 6
     base_param = 1/2
     sigma_Color = lerp(alpha, 90, base_param)
     sigma_Space = lerp(alpha, 90, base_param)
 
     for _ in range(N):
         img = cv2.bilateralFilter(img, d, sigmaColor=sigma_Color, sigmaSpace=sigma_Space)
-
+    cv2.imwrite("./sandbox/out/lsd/inprocess.png", img)
     return img
 
 def extract_lines_by_hough(processed_image: MatLike, alpha:float, beta:float) -> list[Line]:
@@ -69,12 +68,14 @@ def extract_lines_by_hough(processed_image: MatLike, alpha:float, beta:float) ->
     houghline_minline_gap = after_height * minLineLength_coef
     houghline_maxline_gap = after_height * maxLineGap_coef
     lines = cv2.HoughLinesP(edge_img, 1, np.pi/180, houghline_threshold, None, houghline_minline_gap, houghline_maxline_gap)
+    if (type(lines) == NoneType): return []
     return MatLike_to_list_of_points(lines)
 
 def extract_lines_by_lsd(processed_image: MatLike) -> list[Line]:
     lsd = cv2.createLineSegmentDetector()
     img_gray = cv2.cvtColor(processed_image, cv2.COLOR_BGR2GRAY)
     lines, width, prec, nfa = lsd.detect(img_gray)
+    if (type(lines) == NoneType): return []
     return MatLike_to_list_of_points(lines)
 
 def postprocess(edge_img: MatLike, lines_in_list:list[Line],  gamma:float) -> list[Line]:
@@ -98,7 +99,7 @@ def postprocess(edge_img: MatLike, lines_in_list:list[Line],  gamma:float) -> li
                 showing_frame_interval = 1 if (showing_frame_interval == 100) else 100
                 # キーを離すまで進めない
                 while (cv2.waitKey(1) != -1): pass
-            
+        
             
         # すでに結合されていた場合は無視
         if not lines_used[i] or not lines_used[j]:
@@ -228,9 +229,9 @@ if __name__ == '__main__':
     file_base_name = file_name.split(".")[0]
     input_target = cv2.imread("App/assets/test/" + file_name)
     if True:
-        alpha = 0.5
+        alpha = 1
         beta = 0.9
-        gamma = 0
+        gamma = 0.5
         tester_extract_lines(input_target.copy(), file_base_name + "-hough", lambda img: process_hough(img, alpha, beta, gamma))
         tester_extract_lines(input_target.copy(), file_base_name + "-lsd", lambda img: process_lsd(img, alpha, gamma))
     else:

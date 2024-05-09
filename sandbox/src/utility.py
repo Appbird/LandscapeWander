@@ -23,6 +23,9 @@ def in_points(line:Line):
         [line[2], line[3]] if line[0] < line[2] else [line[0], line[1]]
     )
 
+def MatLike_to_list_of_floats(matlike:MatLike) -> list[float]:
+    return list(map(float, matlike[:, 0]))
+
 def MatLike_to_list_of_points(lines:MatLike) -> list[Line]:
     return list(zip(
         map(int, lines[:, 0, 0]),
