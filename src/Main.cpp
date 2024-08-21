@@ -1,6 +1,7 @@
 # include <Siv3D.hpp> // OpenSiv3D v0.6.11
 # include "LandscapeStickman/MainGame.hpp"
 # include "LandscapeStickman/InstructionScene.hpp"
+# include "FirebaseTester/MainGame.hpp"
 # include "WalkDemo/MainGame.hpp"
 # include "Title/MainMenu.hpp"
 # include "Credits/Credit.hpp"
@@ -25,8 +26,10 @@ void Main()
         (U"Title");
     app.add<Credits::HomeScene>
         (U"Credit");
+    app.add<LandscapeExtenders::MainGame>
+        (U"FirebaseTester/MainGame");
     
-    app.init(U"Title", 1000);
+    app.init(U"FirebaseTester/MainGame", 1000);
     while (System::Update()) {
         if (not app.update()) { continue; }
     }

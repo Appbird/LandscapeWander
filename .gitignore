@@ -10,5 +10,6 @@ test/media
 icon.icns
 build
 node_modules
+App/landscape_extenders/
 
 .DS_Store
