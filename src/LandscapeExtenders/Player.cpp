@@ -268,4 +268,8 @@ Vec2 Player::foot_point() const {
     Vec2 half_size{ 0, character_size_.y / 2};
     return transform_.position + half_size;
 }
+Vec2 Player::head_point() const {
+    Vec2 half_size{ 0, character_size_.y / 2};
+    return transform_.position - half_size;
+}
 }

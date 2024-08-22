@@ -1,7 +1,7 @@
 #include "FirebaseAPI.hpp"
 #include "../Utility/TempFile.hpp"
 
-namespace LandscapeExtenders::Firebase {
+namespace Firebase {
 
 
 StageList load_cached_stage_list() {
@@ -126,7 +126,6 @@ HTTPResponse API::request_fetch_and_save_image(
 }
 JSON API::extract_json_result(const HTTPResponse& response, const FilePath& dst) const {
     if (response.isSuccessful()) {
-        Console << JSON::Load(dst);
         return JSON::Load(dst);
     } else {
         String context;

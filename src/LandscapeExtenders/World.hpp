@@ -27,11 +27,7 @@ struct PhotoStage : Hittable {
     RectF bounding_box() const {
         return edge_detected_stage.info.area;
     }
-    void draw() const {
-        edge_detected_stage.landscape
-            .resized(edge_detected_stage.info.area.size)
-            .draw(edge_detected_stage.info.area.tl());
-    }
+    void draw() const;
     void draw_lines() const {
         for (const auto& line : edge_detected_stage.terrain) {
             // #TODO ラインの描画方法について考える。
@@ -90,7 +86,7 @@ struct World : Hittable {
         const String& p1 = where(object.begin);
         if (not p1.empty()) { hitted |= stages.at(p1).hit(object, tickets); }
         const String& p2 = where(object.end);
-        if (not p1.empty()) { hitted |= stages.at(p2).hit(object, tickets); }
+        if (not p2.empty()) { hitted |= stages.at(p2).hit(object, tickets); }
 
         return hitted;
     }
@@ -102,6 +98,11 @@ struct World : Hittable {
             result = covered(result, stage.bounding_box());
         }
         return result;
+    }
+
+    Vec2 initial_start_point() const {
+        assert(stages.size() > 0);
+        return stages.begin()->second.bounding_box().center();
     }
     private:
         HashTable<String, PhotoStage> stages;

@@ -12,6 +12,16 @@ namespace LandscapeExtenders {
 
 
 class MainGame : public App::Scene {
+public:
+    MainGame(const InitData& init);
+    void update() override;
+    void draw() const override;
+    void draw_world() const;
+    void save_world() const;
+    void draw_UI();
+    ~MainGame() {
+        bgm_game.stop();
+    }
 private:
     enum GameState {
         Playing,
@@ -39,6 +49,8 @@ private:
     bool some_param_modified = false;
     bool already_drawn = false;
     
+    double _camera_world_height = 30.0;
+
     String file_path;
 
     Stopwatch game_start_stopwatch{StartImmediately::No};
@@ -54,7 +66,7 @@ private:
     }
     // ゲーム空間中でのカメラ座標系の背景の高さをm単位で返す。
     double camera_world_height() const {
-        return 30.0;
+        return _camera_world_height;
     }
     
     // ゲームが終了したかを返す。
@@ -64,7 +76,7 @@ private:
     // 写真の横幅がゲーム空間の何メートルを占めるかを表す。(mを単位とする。)
     Vec2 player_inital_place() const {
         // #TODO 後でいい感じの場所に変えておく。
-        return {0, 0};
+        return world.initial_start_point();
     }
     double screen_pixel_per_meter() const {
         return Scene::Height() / camera_world_height();
@@ -77,16 +89,6 @@ private:
             Arg::center = scroll_offset(),
             Camera_world_Rect()
         };
-    }
-public:
-    MainGame(const InitData& init);
-    void update() override;
-    void draw() const override;
-    void draw_world() const;
-    void save_world() const;
-    void draw_UI();
-    ~MainGame() {
-        bgm_game.stop();
     }
 };
 

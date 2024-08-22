@@ -17,8 +17,8 @@ EdgeDetectedStage::EdgeDetectedStage(
     Array<Line> stage_line_on_photo = extract_stageline_from(image, alpha, beta, gamma);
     const double photo_meter_per_pixel = stage_data.area.w / image.width();
     for (Line& line : stage_line_on_photo) {
-        Vec2 begin = line.begin * photo_meter_per_pixel + stage_data.area.center();
-        Vec2 end = line.end * photo_meter_per_pixel + stage_data.area.center();
+        Vec2 begin = line.begin * photo_meter_per_pixel + stage_data.area.tl();
+        Vec2 end = line.end * photo_meter_per_pixel + stage_data.area.tl();
         terrain.push_back(make_shared<Line>(begin, end));
     }
 }

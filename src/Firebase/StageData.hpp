@@ -1,7 +1,7 @@
 #pragma once
 #include <Siv3D.hpp>
 
-namespace LandscapeExtenders::Firebase {
+namespace Firebase {
 
 struct StageData {
     bool is_ready;

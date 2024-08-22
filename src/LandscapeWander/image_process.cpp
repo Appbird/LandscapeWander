@@ -179,7 +179,7 @@ Array<Line> extract_stageline_from(const Image& image, const double alpha, const
     Array<Line> tied_lines = combine_lines(lines, after_height, gamma);
     Console << U"tied_lines: " << tied_lines.size();
     
-    Rect image_region{{0, 0}, {image_scaled.width(), image_scaled.height()}};
+    Rect image_region{{0, 0}, {image_scaled.width(), image_scaled.height()-1}};
     // 底に線を追加
     tied_lines.emplace_back(image_region.bottom());
 

@@ -40,6 +40,8 @@
 		936B3F222C77309000906D2B /* EdgeDetectedStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F202C77309000906D2B /* EdgeDetectedStage.cpp */; };
 		936B3F232C77309000906D2B /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F212C77309000906D2B /* World.cpp */; };
 		936B3F252C7730C500906D2B /* FirebaseAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F242C7730C500906D2B /* FirebaseAPI.cpp */; };
+		936B3F282C7735EF00906D2B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F262C7735EF00906D2B /* Player.cpp */; };
+		936B3F292C7735EF00906D2B /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F272C7735EF00906D2B /* MainGame.cpp */; };
 		93CA42722B84AB4200658CAB /* LandscapeStickman in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426D2B84AB4200658CAB /* LandscapeStickman */; };
 		93CA42732B84AB4200658CAB /* GameScene in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426E2B84AB4200658CAB /* GameScene */; };
 		93CA42742B84AB4200658CAB /* LandscapeWander in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426F2B84AB4200658CAB /* LandscapeWander */; };
@@ -96,6 +98,8 @@
 		936B3F202C77309000906D2B /* EdgeDetectedStage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EdgeDetectedStage.cpp; path = src/LandscapeExtenders/EdgeDetectedStage.cpp; sourceTree = "<group>"; };
 		936B3F212C77309000906D2B /* World.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = World.cpp; path = src/LandscapeExtenders/World.cpp; sourceTree = "<group>"; };
 		936B3F242C7730C500906D2B /* FirebaseAPI.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FirebaseAPI.cpp; path = src/Firebase/FirebaseAPI.cpp; sourceTree = "<group>"; };
+		936B3F262C7735EF00906D2B /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeExtenders/Player.cpp; sourceTree = "<group>"; };
+		936B3F272C7735EF00906D2B /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/LandscapeExtenders/MainGame.cpp; sourceTree = "<group>"; };
 		93CA426D2B84AB4200658CAB /* LandscapeStickman */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeStickman; sourceTree = "<group>"; };
 		93CA426E2B84AB4200658CAB /* GameScene */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GameScene; sourceTree = "<group>"; };
 		93CA426F2B84AB4200658CAB /* LandscapeWander */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeWander; sourceTree = "<group>"; };
@@ -157,6 +161,8 @@
 		2C1778791CE0A9D800BB8AD0 = {
 			isa = PBXGroup;
 			children = (
+				936B3F272C7735EF00906D2B /* MainGame.cpp */,
+				936B3F262C7735EF00906D2B /* Player.cpp */,
 				936B3F242C7730C500906D2B /* FirebaseAPI.cpp */,
 				936B3F202C77309000906D2B /* EdgeDetectedStage.cpp */,
 				936B3F212C77309000906D2B /* World.cpp */,
@@ -312,6 +318,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				936B3F282C7735EF00906D2B /* Player.cpp in Sources */,
+				936B3F292C7735EF00906D2B /* MainGame.cpp in Sources */,
 				936B3F252C7730C500906D2B /* FirebaseAPI.cpp in Sources */,
 				936B3F222C77309000906D2B /* EdgeDetectedStage.cpp in Sources */,
 				936B3F232C77309000906D2B /* World.cpp in Sources */,

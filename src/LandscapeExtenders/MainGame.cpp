@@ -10,16 +10,17 @@
 namespace LandscapeExtenders {
 
 Vec2 MainGame::scroll_offset() const {
-    return ClampXY(
-        player.transform_.position + Vec2{player.transform_.velocity.x*0.5, 0},
-        world_bounding_box.tl() + Camera_world_Rect() / 2,
-        world_bounding_box.br() - Camera_world_Rect() / 2
-    );
+    const Vec2 camera_position = player.transform_.position + Vec2{player.transform_.velocity.x*0.5, 0};
+    const Vec2 v1 = world_bounding_box.tl() + Camera_world_Rect() / 2;
+    const Vec2 v2 = world_bounding_box.br() - Camera_world_Rect() / 2;
+    if (v1.y > v2.y or v1.x > v2.x) { return camera_position; }
+    return ClampXY(camera_position, v1, v2);
 }
+
 
 void MainGame::set_stage() {
     world.initialize();
-    world_bounding_box = world.bounding_box();
+    world_bounding_box = world.bounding_box().stretched(10);
 }
 
 MainGame::MainGame(const InitData& init):
@@ -50,8 +51,7 @@ void MainGame::update() {
             }
         }
     }
-    if (KeyA.down()) { displaying_line = not displaying_line; }
-    // if (KeyB.down()) { changeScene(U"Title", 500); }
+    if (KeyQ.down()) { displaying_line = not displaying_line; }
     if (KeyC.down()) {
         configure_mode = not configure_mode;
         if (not configure_mode and some_param_modified) {
@@ -59,10 +59,23 @@ void MainGame::update() {
             some_param_modified = false;
         }
     }
-    if (KeyR.down()) {
+    if (KeyR.down() or player.head_point().y > world_bounding_box.bottomY() + 10) {
         player.transform_.position = this->player_inital_place();
         player.transform_.velocity = Vec2::Zero();
     }
+    /*
+    if (KeyC.down()) {
+        configure_mode = not configure_mode;
+        if (not configure_mode and some_param_modified) {
+            set_stage();
+            some_param_modified = false;
+        }
+    }
+    */
+    if (KeyS.pressed()) { _camera_world_height -= 25 * Scene::DeltaTime(); }
+    if (KeyD.pressed()) { _camera_world_height += 25 * Scene::DeltaTime(); }
+    _camera_world_height = Clamp(_camera_world_height, 10.0, 100.0);
+
     if (configure_mode or abs(player.transform_.velocity.x) > 0.1) { stop_time_stopwatch.restart(); }
 
     board_transition.update(configure_mode);
@@ -76,11 +89,10 @@ void MainGame::draw_world() const {
         const Transformer2D centerized{Mat3x2::Translate(Scene::Center())};
         const Transformer2D scaled{Mat3x2::Scale(screen_pixel_per_meter())};
         const Transformer2D transformer{ Mat3x2::Translate(-scroll_offset()), TransformCursor::Yes };
-        
+        world_bounding_box.draw(Arg::topRight = Color{47, 63, 79}, Arg::bottomLeft = Color{38, 52, 66});
         
         world.draw(visible_region());
         if (displaying_line){ world.draw_lines(visible_region()); }
-
         effect.update();
         player.draw();
         {
@@ -100,10 +112,11 @@ void MainGame::draw_UI() {
         const ScopedColorMul2D scm{1, 1, 1, opacity}; 
         const Rect info_rect = cliped_Y(Scene::Rect(), 0.75, 0.95);
         info_rect.draw(ColorF{0, 0, 0, 0.5});
-        FontAsset(U"UIFont")(U"[A] 検出した線の表示切替, [R] やりなおし \n[←↑↓→]: 移動, [スペース]: ジャンプ")
+        
+        FontAsset(U"UIFont")(U"[A] 検出した線の表示切替 [S/D] 拡大/縮小 [R] やりなおし \n[←↑↓→]: 移動 [スペース]: ジャンプ")
         .draw(20, Arg::center = info_rect.center(), Palette::White);
     }
-
+    
     const double t = 1 - EaseInOutExpo(board_transition.value());
     if (configure_mode or t > 0) {
         // アニメーション中の`configure_rect`の位置

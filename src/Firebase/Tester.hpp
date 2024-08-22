@@ -3,17 +3,17 @@
 #include "FirebaseAPI.hpp"
 #include "../App.hpp"
 
-namespace LandscapeExtenders {
+namespace Firebase {
 
 // #TODO 操作説明も画面下部に加える。
 // 特に、Aキー, Bキー
 
-class MainGame : public App::Scene {
+class Tester : public App::Scene {
 public:
-    Firebase::API api;
-    Firebase::StageList stage_list;
+    API api;
+    StageList stage_list;
     
-    MainGame(const InitData& init):
+    Tester(const InitData& init):
         IScene{init}
     {
         try {

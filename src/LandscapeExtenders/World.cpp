@@ -5,7 +5,7 @@
 
 namespace LandscapeExtenders {
 
-static const Firebase::StageList& setup_stage_list();
+static Firebase::StageList setup_stage_list();
 
 void World::initialize() {
     Firebase::StageList stages_info = setup_stage_list();
@@ -14,9 +14,16 @@ void World::initialize() {
         stages.insert({key, stage_terrain});
     }   
 }
+void PhotoStage::draw() const {
+    edge_detected_stage.info.area
+        .drawFrame(0.5, Color{75, 119, 150})
+        .drawShadow(Vec2{ 0, 0 }, 1, 0.5);
+    edge_detected_stage.landscape
+        .resized(edge_detected_stage.info.area.size)
+        .draw(edge_detected_stage.info.area.tl());
+}
 
-
-static const Firebase::StageList& setup_stage_list() {
+static Firebase::StageList setup_stage_list() {
     Firebase::API api;
     api.initialize();
     Firebase::StageList stage_list = api.fetch_stage_array();

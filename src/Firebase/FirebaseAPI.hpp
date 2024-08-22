@@ -3,7 +3,7 @@
 #include <set>
 #include "StageData.hpp"
 
-namespace LandscapeExtenders::Firebase {
+namespace Firebase {
 const bool IN_DEBUG = true;
 using StageList = HashTable<String, StageData>;
 const FilePath auth_info_filepath   = U"landscape_extenders/auth_info.json";

@@ -124,6 +124,7 @@ public:
     Line collision_line() const;
     Line landing_raycast() const;
     Vec2 foot_point() const;
+    Vec2 head_point() const;
     
 };
 
