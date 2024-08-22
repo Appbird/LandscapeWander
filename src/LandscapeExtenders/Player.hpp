@@ -1,7 +1,7 @@
 #pragma once
 #include <Siv3D.hpp>
 #include "../Utility/AnimationManager.hpp"
-#include "../Utility/CollisionEvent.hpp"
+#include "World.hpp"
 
 namespace LandscapeExtenders {
 
@@ -54,7 +54,7 @@ public:
     SizeF character_size_{1.8, 1.8};
 
     // #FIXME Lineの寿命を考慮していないことに注意
-    const Line* touched_ground = nullptr;
+    std::shared_ptr<Line> touched_ground = nullptr;
     double move_speed_ = 13;
     double jump_velocity_max = 15;
     double rundust_time = 0;
@@ -118,7 +118,7 @@ public:
         animation_.change_animation(Waiting);
     }
     void update(Effect& effect);
-    void resolve_collision(const Array<CollisionEvent>& collisionEvents, const Array<Line>& lines);
+    void resolve_collision(const CollisionTicket& collisionEvents);
     void draw() const;
     
     Line collision_line() const;

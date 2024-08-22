@@ -6,24 +6,41 @@ namespace LandscapeExtenders::Firebase {
 struct StageData {
     bool is_ready;
     String name;
-    Vec2 position;
+    RectF area;
     FilePath storageURI;
+
+    bool includes(Vec2 pos) const {
+        return area.contains(Vertex2D(pos));
+    }
+
     static StageData from_firestore(const JSON& json){
         StageData s;
         
-        s.is_ready    = getBoolean(json[U"is_ready"]);
-        s.name        = getString(json[U"name"]);
-        s.position.x  = getNumberAsDouble(getMap(json[U"position"])[U"x"]);
-        s.position.y  = getNumberAsDouble(getMap(json[U"position"])[U"y"]);
-        s.storageURI  = getString(json[U"storageURI"]);
+        s.is_ready      = getBoolean(json[U"is_ready"]);
+        s.name          = getString(json[U"name"]);
+        {
+            Vec2 position; Vec2 size;
+            position.x    = getNumberAsDouble(getMap(json[U"position"])[U"x"]);
+            position.y    = getNumberAsDouble(getMap(json[U"position"])[U"y"]);
+            size.x        = getNumberAsDouble(getMap(json[U"size"])[U"x"]);
+            size.y        = getNumberAsDouble(getMap(json[U"size"])[U"y"]);
+            s.area = RectF{Arg::center = position, size};
+        }
+        s.storageURI    = getString(json[U"storageURI"]);
         return s;
     }
     static StageData from_savedata(const JSON& json) {
         StageData s;
         s.is_ready = json[U"is_ready"].get<bool>();
         s.name = json[U"name"].getString();
-        s.position.x = json[U"position"][U"x"].get<double>(); 
-        s.position.y = json[U"position"][U"y"].get<double>();
+        {
+            Vec2 position; Vec2 size;
+            position.x = json[U"position"][U"x"].get<double>(); 
+            position.y = json[U"position"][U"y"].get<double>();
+            size.x = json[U"size"][U"x"].get<double>(); 
+            size.y = json[U"size"][U"y"].get<double>();
+            s.area = RectF{Arg::center = position, size};
+        }
         s.storageURI = json[U"storageURI"].getString();
         return s;
     }
@@ -31,8 +48,10 @@ struct StageData {
         JSON json;
         json[U"is_ready"] = is_ready;
         json[U"name"] = name;
-        json[U"position"][U"x"] = position.x; 
-        json[U"position"][U"y"] = position.y;
+        json[U"position"][U"x"] = area.centerX(); 
+        json[U"position"][U"y"] = area.centerY();
+        json[U"size"][U"x"] = area.w; 
+        json[U"size"][U"y"] = area.h;
         json[U"storageURI"] = storageURI;
         return json;
     }

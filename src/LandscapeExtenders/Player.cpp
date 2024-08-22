@@ -112,23 +112,20 @@ void Player::update(Effect& effect) {
 }
 
 
-void Player::resolve_collision(const Array<CollisionEvent>& collision_events, const Array<Line>& lines) {
-    // 本当はlinesをここで渡すのはあまりよろしくない設計だが、とりあえず採用
-    for (const CollisionEvent& collision_event : collision_events) {
-        const double y_begin = collision_line().begin.y;
-        const double y_end = collision_line().end.y;
-        // lineが動く場合、lineの動きも考慮する必要があるが、今回は考えない。
-        // 下方向につっこんでいた場合
-        if (
-            lines[collision_event.line_index].intersects(collision_line())
-            and lines[collision_event.line_index].intersects(landing_raycast())
-            and transform_.velocity.y > 0
-        ) {
-            if (transform_.velocity.y > gravity/2) { land_se.play(); }
-            transform_.velocity.y = 0;
-            transform_.position.y += collision_event.collision_point.y - std::max(y_begin, y_end);
-            touched_ground = &lines[collision_event.line_index];
-        }
+void Player::resolve_collision(const CollisionTicket& collision_event) {
+    const double y_begin = collision_line().begin.y;
+    const double y_end = collision_line().end.y;
+    // lineが動く場合、lineの動きも考慮する必要があるが、今回は考えない。
+    // 下方向につっこんでいた場合
+    if (
+        collision_event.collided->intersects(collision_line())
+        and collision_event.collided->intersects(landing_raycast())
+        and transform_.velocity.y > 0
+    ) {
+        if (transform_.velocity.y > gravity/2) { land_se.play(); }
+        transform_.velocity.y = 0;
+        transform_.position.y += collision_event.collided_point.y - std::max(y_begin, y_end);
+        touched_ground = collision_event.collided;
     }
 }
 

@@ -70,7 +70,7 @@ MainGame::MainGame(const InitData& init):
         }
         photo_lines_offsets.resize(image_count + 1);
         photo_lines_offsets[0] = 0;
-        for (int i = 0; i < image_count; i++) {
+        for (int i = 0; i < int32_t(image_count); i++) {
             photo_lines_offsets[i + 1] = photo_lines_offsets[i] + background_textures[i].width() * photo_meter_per_pixel(i);
         }
         for (size_t i = 1; i < lines_of_stages.size(); i++) {

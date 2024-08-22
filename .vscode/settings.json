@@ -88,6 +88,9 @@
         "complex": "cpp",
         "list": "cpp",
         "queue": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "*.inc": "cpp",
+        "execution": "cpp",
+        "valarray": "cpp"
     }
 }

@@ -1,7 +1,7 @@
 # include <Siv3D.hpp> // OpenSiv3D v0.6.11
 # include "LandscapeStickman/MainGame.hpp"
 # include "LandscapeStickman/InstructionScene.hpp"
-# include "FirebaseTester/MainGame.hpp"
+# include "Firebase/MainGame.hpp"
 # include "WalkDemo/MainGame.hpp"
 # include "Title/MainMenu.hpp"
 # include "Credits/Credit.hpp"

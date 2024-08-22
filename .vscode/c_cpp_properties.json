@@ -3,7 +3,6 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/src/**",
                 "../../include",
 				"../../include/ThirdParty",
                 "/usr/local/Cellar/opencv/4.10.0_3/include/opencv4/"

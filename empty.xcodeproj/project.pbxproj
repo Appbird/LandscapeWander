@@ -37,7 +37,9 @@
 		2C5C471126B4F08E005E8C85 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C471026B4F08E005E8C85 /* libzlib.a */; };
 		2C6906D82298140F00A427D0 /* engine in Resources */ = {isa = PBXBuildFile; fileRef = 2C6906D72298140F00A427D0 /* engine */; };
 		2CD8412C283263B2005013A6 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CD8412B283263B2005013A6 /* libboost_filesystem.a */; };
-		9313FEA02C761FE300402439 /* FirebaseAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9313FE9F2C761FE300402439 /* FirebaseAPI.cpp */; };
+		936B3F222C77309000906D2B /* EdgeDetectedStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F202C77309000906D2B /* EdgeDetectedStage.cpp */; };
+		936B3F232C77309000906D2B /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F212C77309000906D2B /* World.cpp */; };
+		936B3F252C7730C500906D2B /* FirebaseAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 936B3F242C7730C500906D2B /* FirebaseAPI.cpp */; };
 		93CA42722B84AB4200658CAB /* LandscapeStickman in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426D2B84AB4200658CAB /* LandscapeStickman */; };
 		93CA42732B84AB4200658CAB /* GameScene in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426E2B84AB4200658CAB /* GameScene */; };
 		93CA42742B84AB4200658CAB /* LandscapeWander in Resources */ = {isa = PBXBuildFile; fileRef = 93CA426F2B84AB4200658CAB /* LandscapeWander */; };
@@ -91,7 +93,9 @@
 		2C5C471026B4F08E005E8C85 /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = ../../lib/macOS/zlib/libzlib.a; sourceTree = "<group>"; };
 		2C6906D72298140F00A427D0 /* engine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = engine; path = App/engine; sourceTree = "<group>"; };
 		2CD8412B283263B2005013A6 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../lib/macOS/boost/libboost_filesystem.a; sourceTree = "<group>"; };
-		9313FE9F2C761FE300402439 /* FirebaseAPI.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FirebaseAPI.cpp; path = src/FirebaseTester/FirebaseAPI.cpp; sourceTree = "<group>"; };
+		936B3F202C77309000906D2B /* EdgeDetectedStage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EdgeDetectedStage.cpp; path = src/LandscapeExtenders/EdgeDetectedStage.cpp; sourceTree = "<group>"; };
+		936B3F212C77309000906D2B /* World.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = World.cpp; path = src/LandscapeExtenders/World.cpp; sourceTree = "<group>"; };
+		936B3F242C7730C500906D2B /* FirebaseAPI.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FirebaseAPI.cpp; path = src/Firebase/FirebaseAPI.cpp; sourceTree = "<group>"; };
 		93CA426D2B84AB4200658CAB /* LandscapeStickman */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeStickman; sourceTree = "<group>"; };
 		93CA426E2B84AB4200658CAB /* GameScene */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GameScene; sourceTree = "<group>"; };
 		93CA426F2B84AB4200658CAB /* LandscapeWander */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LandscapeWander; sourceTree = "<group>"; };
@@ -153,7 +157,9 @@
 		2C1778791CE0A9D800BB8AD0 = {
 			isa = PBXGroup;
 			children = (
-				9313FE9F2C761FE300402439 /* FirebaseAPI.cpp */,
+				936B3F242C7730C500906D2B /* FirebaseAPI.cpp */,
+				936B3F202C77309000906D2B /* EdgeDetectedStage.cpp */,
+				936B3F212C77309000906D2B /* World.cpp */,
 				93CA42902B859C7000658CAB /* Layout.cpp */,
 				93CA428D2B84E21000658CAB /* MainGame.cpp */,
 				93CA428C2B84E21000658CAB /* Player.cpp */,
@@ -306,7 +312,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9313FEA02C761FE300402439 /* FirebaseAPI.cpp in Sources */,
+				936B3F252C7730C500906D2B /* FirebaseAPI.cpp in Sources */,
+				936B3F222C77309000906D2B /* EdgeDetectedStage.cpp in Sources */,
+				936B3F232C77309000906D2B /* World.cpp in Sources */,
 				93CA42912B859C7000658CAB /* Layout.cpp in Sources */,
 				93CA428E2B84E21100658CAB /* Player.cpp in Sources */,
 				93CA428F2B84E21100658CAB /* MainGame.cpp in Sources */,
