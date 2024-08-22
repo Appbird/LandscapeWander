@@ -1,4 +1,3 @@
-#pragma once
 # include <Siv3D.hpp>
 # include "MainGame.hpp"
 # include "../Utility/Animation.hpp"
@@ -104,7 +103,7 @@ void MainGame::update() {
         // 一番左端にある写真のX座標
         const double leftest_photo_x = photo_start_position(photo_index_count + 1);
         if (leftest_photo_x < player.transform_.position.x - Camera_world_Rect().x) {
-            for (Line& line:lines_of_stages[mod(photo_index_count, photo_count())]) {    
+            for (Line& line:lines_of_stages[mod(int32_t(photo_index_count), int32_t(photo_count()))]) {    
                 line.begin.x    += photo_period_meter();
                 line.end.x      += photo_period_meter();
             }
@@ -116,7 +115,7 @@ void MainGame::update() {
         assert(collision_events.size() == lines_of_stages.size());
         for (size_t i = 0; i < lines_of_stages.size(); i++) {
             collision_events[i].clear();
-            for (const auto& [index, line] : IndexedRef(lines_of_stages[i])) {
+            for (const auto [index, line] : IndexedRef(lines_of_stages[i])) {
                 if (const auto collided_points = line.intersectsAt(player.collision_line())) {
                     collision_events[i].push_back({int(index), *collided_points});
                 }

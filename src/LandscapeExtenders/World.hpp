@@ -7,8 +7,6 @@ namespace LandscapeExtenders {
 
 using std::shared_ptr;
 
-static const String empty_str = U"";
-
 struct CollisionTicket {
     shared_ptr<Line> collided;
     Vec2 collided_point;
@@ -47,17 +45,21 @@ struct PhotoStage : Hittable {
         const Line& object,
         Array<CollisionTicket>& tickets
     ) const {
+        bool hitted = false;
         for (const auto& line : edge_detected_stage.terrain) {
             if (const auto collided_point = line->intersectsAt(object)) {
                 tickets.push_back({line, *collided_point});
+                hitted = true;
             }
         }
+        return hitted;
     }
 private:
     EdgeDetectedStage edge_detected_stage;
 };
 
 struct World : Hittable {
+    const String empty_str = U"";
     void initialize();
     /** `pos`の位置する地点を返す。 もしどこのステージにも位置していなければ空文字列を返す。*/
     const String& where(const Vec2 pos) const {
@@ -99,6 +101,7 @@ struct World : Hittable {
         for (const auto& [key, stage] : stages) {
             result = covered(result, stage.bounding_box());
         }
+        return result;
     }
     private:
         HashTable<String, PhotoStage> stages;

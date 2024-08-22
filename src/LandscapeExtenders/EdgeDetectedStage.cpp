@@ -1,4 +1,3 @@
-#pragma once
 #include "EdgeDetectedStage.hpp"
 #include "../LandscapeWander/image_process.hpp"
 

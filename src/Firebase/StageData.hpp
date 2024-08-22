@@ -10,7 +10,8 @@ struct StageData {
     FilePath storageURI;
 
     bool includes(Vec2 pos) const {
-        return area.contains(Vertex2D(pos));
+        Vec2 tl = area.tl(); Vec2 br = area.br();
+        return InRange(pos.x, tl.x, br.x) and InRange(pos.y, tl.y, br.y);
     }
 
     static StageData from_firestore(const JSON& json){
@@ -71,7 +72,7 @@ private:
         if (value.contains(key_int)) {
             return Parse<double>(value[key_int].getString());
         } else if (value.contains(key_double)) {
-            return Parse<double>(value[key_double].getString());
+            return value[key_double].get<double>();
         } else { 
             assert(0);
         }

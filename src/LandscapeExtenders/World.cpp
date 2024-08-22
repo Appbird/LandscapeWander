@@ -5,6 +5,8 @@
 
 namespace LandscapeExtenders {
 
+static const Firebase::StageList& setup_stage_list();
+
 void World::initialize() {
     Firebase::StageList stages_info = setup_stage_list();
     for (const auto& [key, stage_info]:stages_info) {
