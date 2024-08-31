@@ -36,3 +36,9 @@ RectF covered(const RectF& r1, const RectF& r2) {
         bottomRight - topLeft
     };
 }
+
+double gradarg_Line(const Line& line, const int32 direction) {
+    assert(abs(direction) <= 1);
+    if (line.end.x < line.begin.x) { return gradarg_Line(Line{line.end, line.begin}, direction); }
+    return (direction * (line.end - line.begin)).getAngle();
+}

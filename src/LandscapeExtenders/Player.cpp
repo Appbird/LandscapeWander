@@ -4,7 +4,9 @@
 
 // COMPLETE #TODO 降りている最中にジャンプできなくなる問題
 namespace LandscapeExtenders {
-    
+
+bool CONTROLL_METHOD = true;
+
 static constexpr double gravity = 9.8;
 
 static double sq(const double x) {
@@ -67,7 +69,16 @@ AnimationsManager<PlayerAnimationState> Player::prepare_animation() {
 
 
 static int interpret_movement_direction(bool is_movable) {
-    if (is_movable) {
+    if (not is_movable) { return 0; }
+    if (CONTROLL_METHOD) {
+        if (const auto r = JoyCon(0)) {
+            if (r.povD8() == 2) {
+                return 1;
+            } else if (r.povD8() == 6) {
+                return -1;
+            }
+        }
+    } else {
         if (KeyLeft.pressed()) {
             return -1;
         } else if (KeyRight.pressed()) {
@@ -77,10 +88,21 @@ static int interpret_movement_direction(bool is_movable) {
     return 0;
 }
 
+static bool interpret_jumping(bool is_movable) {
+    if (CONTROLL_METHOD) {
+        if (const auto r = JoyCon(0)) {
+            return (r.button1.pressed());
+        }
+        return false;
+    } else {
+        return KeySpace.pressed();
+    }
+}
+
 void Player::update(Effect& effect) {
     const InputInfo input {
         interpret_movement_direction(is_movable()),
-        KeySpace.pressed()
+        interpret_jumping(is_movable())
     };
     if (is_movable()) {
         if (input.direction == -1) {
@@ -236,6 +258,9 @@ void Player::on_movable(const InputInfo& input) {
     const double move_acc_coef = (is_on_ground()) ? 2 : 1;
     // 以下の微分方程式に基づいてプレイヤーの速度を更新する。
     // dσ = (1-σ)σdx ---> σ = 1/(1+e^{-x}) (ロジスティックシグモイド関数)
+    if (touched_ground) {
+        move_speed_ = 13 * 0.75 * pow(2, gradarg_Line(*touched_ground, input.direction));
+    }
     // 加速する時
     if (sign(transform_.velocity.x) == input.direction or sign(transform_.velocity.x) == 0) {
         double& v = transform_.velocity.x;
