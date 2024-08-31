@@ -20,7 +20,7 @@ static void RegisterAssets() {
     AudioAsset::Register(U"se/sliding", asset_path(U"se/sliding.mp3"));
     AudioAsset::Register(U"se/rocket",  asset_path(U"se/rocket.mp3"));    
     AudioAsset::Register(U"se/bighit",  asset_path(U"se/hit.mp3"));
-    AudioAsset::Register(U"se/gravity",     asset_path(U"se/gravity_sound.mp3"));
+    AudioAsset::Register(U"se/gravity", asset_path(U"se/gravity_sound.mp3"));
     
     AudioAsset::Register(U"bgm/game",   asset_path(U"music/reflectable.mp3"));
     AudioAsset(U"bgm/game").setLoop(true);

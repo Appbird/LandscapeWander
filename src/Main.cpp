@@ -4,8 +4,10 @@
 # include "LandscapeStickman/InstructionScene.hpp"
 
 # include "Firebase/Tester.hpp"
-
+ 
 # include "LandscapeExtenders/MainGame.hpp"
+
+# include "Joycon/tester.hpp"
 
 # include "WalkDemo/MainGame.hpp"
 
@@ -39,8 +41,11 @@ void Main()
         (U"FirebaseTester");
     app.add<LandscapeExtenders::MainGame>
         (U"LandscapeExtenders/MainGame");
+    app.add<JoyConController::Tester>
+        (U"JoyCon/Tester");
     
     app.init(U"LandscapeExtenders/MainGame", 1000);
+    // app.init(U"JoyCon/Tester", 1000);
     while (System::Update()) {
         if (not app.update()) { continue; }
     }

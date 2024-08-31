@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/AppleBird/projects/siv3d_v0.6.15_macOS/examples/ImaginaryParkour/empty.xcodeproj">
    </FileRef>
 </Workspace>
