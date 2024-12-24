@@ -1,2 +1,3 @@
-# assetsの中身
-- https://kwansei.box.com/s/o93l3cvdkqfo17vfgfiynayxobpjfxbi
+# Landscape Wander: 現実世界の写真を2Dプラットフォームアクションゲームのフィールドとして活用するための手法
+
+リポジトリ整備中です。
