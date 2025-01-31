@@ -18,10 +18,13 @@
 # include "AssetsRegister.hpp"
 
 # include "App.hpp"
+# include "Utility/Notificator.hpp"
 
 void Main()
 {
     RegisterAssets();
+    Addon::Register<NotificationAddon>(U"NotificationAddon");
+    NotificationAddon::SetLifeTime(3.0);
 
     Scene::SetResizeMode(ResizeMode::Keep);
     Window::SetStyle(WindowStyle::Sizable);
@@ -47,6 +50,7 @@ void Main()
     app.init(U"LandscapeExtenders/MainGame", 1000);
     // app.init(U"JoyCon/Tester", 1000);
     while (System::Update()) {
+        ClearPrint();
         if (not app.update()) { continue; }
     }
 }

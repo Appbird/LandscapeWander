@@ -9,7 +9,7 @@ StageList load_cached_stage_list() {
     const JSON documents = JSON::Load(stage_list_filepath);
     assert(documents.isObject());
     for (const auto& [key, document]: documents) {
-        result.insert({key, StageData::from_firestore(document)});
+        result.insert({key, StageData::from_savedata(document)});
     }
     return result;
 }

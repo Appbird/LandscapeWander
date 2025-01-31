@@ -4,7 +4,7 @@
 #include "StageData.hpp"
 
 namespace Firebase {
-const bool IN_DEBUG = true;
+const bool IN_DEBUG = false;
 using StageList = HashTable<String, StageData>;
 const FilePath auth_info_filepath   = U"landscape_extenders/auth_info.json";
 const FilePath api_key_filepath     = U"landscape_extenders/api_key.txt";
@@ -38,10 +38,18 @@ private:
     String API_KEY;
 
     const String protocol           = IN_DEBUG ? U"http" : U"https";
-    const String auth_id_host       = U"127.0.0.1:9099/identitytoolkit.googleapis.com";
-    const String auth_sectoken_host = U"127.0.0.1:9099/securetoken.googleapis.com";
-    const String storage_host       = U"127.0.0.1:9199";
-    const String firestore_host     = U"127.0.0.1:8080";
+    const String auth_id_host       =   IN_DEBUG
+                                        ? U"127.0.0.1:9099/identitytoolkit.googleapis.com"
+                                        : U"identitytoolkit.googleapis.com";
+    const String auth_sectoken_host =   IN_DEBUG
+                                        ? U"127.0.0.1:9099/securetoken.googleapis.com"
+                                        : U"securetoken.googleapis.com";
+    const String storage_host       =   IN_DEBUG
+                                        ? U"127.0.0.1:9199"
+                                        : U"firebasestorage.googleapis.com";
+    const String firestore_host     =   IN_DEBUG
+                                        ? U"127.0.0.1:8080"
+                                        : U"firestore.googleapis.com";
     
     HTTPResponse request_create_new_account(
         const FilePath& dst

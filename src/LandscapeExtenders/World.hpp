@@ -56,7 +56,19 @@ private:
 
 struct World : Hittable {
     const String empty_str = U"";
-    void initialize();
+    std::set<String> visited;
+    void initialize(
+        const double alpha,
+        const double beta,
+        const double gamma,
+        bool load_from_remote
+    );
+    void reset_stage(
+        const double alpha,
+        const double beta,
+        const double gamma,
+        const String& where
+    );
     /** `pos`の位置する地点を返す。 もしどこのステージにも位置していなければ空文字列を返す。*/
     const String& where(const Vec2 pos) const {
         for (const auto& [key, stage] : stages) {
@@ -64,10 +76,19 @@ struct World : Hittable {
         }
         return empty_str;
     }
+    void visit(const Vec2 pos) {
+        const String& loc = where(pos);
+        if (not visited.contains(where(pos))) {
+            visited.insert(loc);
+        }
+    }
     void draw(const RectF& visible) const {
         for (const auto& [key, stage] : stages) {
             // 映るものだけドローコールを呼び出す。
-            if (stage.bounding_box().intersects(visible)) { stage.draw(); }
+            if (stage.bounding_box().intersects(visible)) {
+                ScopedColorMul2D scoped{{1, 1, 1, visited.contains(key) ? 1.0 : 0.6}};
+                stage.draw();
+            }
         }
     }
     void draw_lines(const RectF& visible) const {
@@ -104,8 +125,12 @@ struct World : Hittable {
         assert(stages.size() > 0);
         return stages.begin()->second.bounding_box().center();
     }
+    int32 count_stages() const {
+        return stages.size();
+    }
     private:
         HashTable<String, PhotoStage> stages;
+        Firebase::StageList stages_info;
 };
 
 }

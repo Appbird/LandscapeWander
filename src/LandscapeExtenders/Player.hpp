@@ -36,6 +36,13 @@ struct Transform {
 
 class Player { 
 public:
+    enum class ControllMethod{
+        JoyCon,
+        Key,
+    };
+
+    ControllMethod CONTROLL_METHOD = ControllMethod::Key;
+
     struct InputInfo {
         int direction;
         // ジャンプボタンが押されたかどうか
@@ -44,6 +51,7 @@ public:
 public:
     using AnimationManager = AnimationsManager<PlayerAnimationState>;
     
+    const bool POSITION_DEBUGGING = true;
     Texture run;
     Texture jump;
     Audio run_se;
@@ -53,14 +61,12 @@ public:
     Transform transform_;
     SizeF character_size_{1.8, 1.8};
 
-    // #FIXME Lineの寿命を考慮していないことに注意
     std::shared_ptr<Line> touched_ground = nullptr;
+    const double standard_move_speed_ = 13;
     double move_speed_ = 13;
-    double jump_velocity_max = 15;
+    const double jump_velocity_max = 21;
     double rundust_time = 0;
     const double rundust_interval_time = 0.2;
-    
-
 
     PlayerState p_state_ = S_Waiting;
     LookingDirection looking_direction_ = LD_LEFT;
@@ -125,7 +131,8 @@ public:
     Line landing_raycast() const;
     Vec2 foot_point() const;
     Vec2 head_point() const;
-    
+    int interpret_movement_direction(bool is_movable) const;
+    bool interpret_jumping(bool is_movable) const;
 };
 
 /*

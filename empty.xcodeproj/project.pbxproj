@@ -36,29 +36,31 @@
 		2C5C471126B4F08E005E8C85 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C471026B4F08E005E8C85 /* libzlib.a */; };
 		2C6906D82298140F00A427D0 /* engine in Resources */ = {isa = PBXBuildFile; fileRef = 2C6906D72298140F00A427D0 /* engine */; };
 		2CD8412C283263B2005013A6 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CD8412B283263B2005013A6 /* libboost_filesystem.a */; };
-		93791E372C7A01DD001EE46A /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E352C7A01DD001EE46A /* Player.cpp */; };
-		93791E382C7A01DD001EE46A /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E362C7A01DD001EE46A /* MainGame.cpp */; };
-		93791E3C2C7A01EE001EE46A /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E392C7A01EE001EE46A /* Animation.cpp */; };
-		93791E3D2C7A01EE001EE46A /* Bloom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E3A2C7A01EE001EE46A /* Bloom.cpp */; };
-		93791E3E2C7A01EE001EE46A /* numeric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E3B2C7A01EE001EE46A /* numeric.cpp */; };
-		93791E402C7A01F7001EE46A /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E3F2C7A01F7001EE46A /* Layout.cpp */; };
-		93791E442C7A020C001EE46A /* image_process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E432C7A020C001EE46A /* image_process.cpp */; };
-		93791E492C7A021B001EE46A /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E452C7A021B001EE46A /* MainGame.cpp */; };
-		93791E4A2C7A021B001EE46A /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E462C7A021B001EE46A /* Player.cpp */; };
-		93791E4B2C7A021B001EE46A /* Blackhole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E472C7A021B001EE46A /* Blackhole.cpp */; };
-		93791E4C2C7A021B001EE46A /* InstructionsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E482C7A021B001EE46A /* InstructionsScene.cpp */; };
-		93791E512C7A022B001EE46A /* EdgeDetectedStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E4D2C7A022A001EE46A /* EdgeDetectedStage.cpp */; };
-		93791E522C7A022B001EE46A /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E4E2C7A022A001EE46A /* MainGame.cpp */; };
-		93791E532C7A022B001EE46A /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E4F2C7A022B001EE46A /* World.cpp */; };
-		93791E542C7A022B001EE46A /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E502C7A022B001EE46A /* Player.cpp */; };
-		93791E562C7A0239001EE46A /* FirebaseAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E552C7A0239001EE46A /* FirebaseAPI.cpp */; };
-		93791E582C7A0502001EE46A /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93791E572C7A0502001EE46A /* Main.cpp */; };
+		93B0B3EC2C84697B006DB634 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3EB2C84697B006DB634 /* Main.cpp */; };
+		93B0B3EE2C846AE1006DB634 /* FirebaseAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3ED2C846AE1006DB634 /* FirebaseAPI.cpp */; };
+		93B0B3F32C846AF7006DB634 /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3EF2C846AF7006DB634 /* MainGame.cpp */; };
+		93B0B3F42C846AF7006DB634 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3F02C846AF7006DB634 /* World.cpp */; };
+		93B0B3F52C846AF7006DB634 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3F12C846AF7006DB634 /* Player.cpp */; };
+		93B0B3F62C846AF7006DB634 /* EdgeDetectedStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3F22C846AF7006DB634 /* EdgeDetectedStage.cpp */; };
+		93B0B3FB2C846B0E006DB634 /* InstructionsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3F72C846B0D006DB634 /* InstructionsScene.cpp */; };
+		93B0B3FC2C846B0E006DB634 /* Blackhole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3F82C846B0E006DB634 /* Blackhole.cpp */; };
+		93B0B3FD2C846B0E006DB634 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3F92C846B0E006DB634 /* Player.cpp */; };
+		93B0B3FE2C846B0E006DB634 /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3FA2C846B0E006DB634 /* MainGame.cpp */; };
+		93B0B4002C846B22006DB634 /* CVUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B3FF2C846B22006DB634 /* CVUtility.cpp */; };
+		93B0B4032C846B35006DB634 /* fld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B4012C846B35006DB634 /* fld.cpp */; };
+		93B0B4042C846B35006DB634 /* houghp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B4022C846B35006DB634 /* houghp.cpp */; };
+		93B0B4062C846B42006DB634 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B4052C846B42006DB634 /* Layout.cpp */; };
+		93B0B40A2C846BBB006DB634 /* Bloom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B4072C846BBB006DB634 /* Bloom.cpp */; };
+		93B0B40B2C846BBB006DB634 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B4082C846BBB006DB634 /* Animation.cpp */; };
+		93B0B40C2C846BBB006DB634 /* numeric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B4092C846BBB006DB634 /* numeric.cpp */; };
+		93B0B40F2C846BCB006DB634 /* MainGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B40D2C846BCB006DB634 /* MainGame.cpp */; };
+		93B0B4102C846BCB006DB634 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 93B0B40E2C846BCB006DB634 /* Player.cpp */; };
+		93B0B4122C84A69C006DB634 /* libopencv_ximgproc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93B0B4112C84A69C006DB634 /* libopencv_ximgproc.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2C1778841CE0A9EA00BB8AD0 /* empty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = empty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C1778921CE0A9EA00BB8AD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2C1778991CE0AA7C00BB8AD0 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
 		2C1778A21CE0B65500BB8AD0 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		2C5C46DC26B4F00D005E8C85 /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
 		2C5C46DE26B4F014005E8C85 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -88,23 +90,26 @@
 		2C5C471026B4F08E005E8C85 /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = ../../lib/macOS/zlib/libzlib.a; sourceTree = "<group>"; };
 		2C6906D72298140F00A427D0 /* engine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = engine; path = App/engine; sourceTree = "<group>"; };
 		2CD8412B283263B2005013A6 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../lib/macOS/boost/libboost_filesystem.a; sourceTree = "<group>"; };
-		93791E352C7A01DD001EE46A /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/WalkDemo/Player.cpp; sourceTree = "<group>"; };
-		93791E362C7A01DD001EE46A /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/WalkDemo/MainGame.cpp; sourceTree = "<group>"; };
-		93791E392C7A01EE001EE46A /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = src/Utility/Animation.cpp; sourceTree = "<group>"; };
-		93791E3A2C7A01EE001EE46A /* Bloom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Bloom.cpp; path = src/Utility/Bloom.cpp; sourceTree = "<group>"; };
-		93791E3B2C7A01EE001EE46A /* numeric.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = numeric.cpp; path = src/Utility/numeric.cpp; sourceTree = "<group>"; };
-		93791E3F2C7A01F7001EE46A /* Layout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Layout.cpp; path = src/UIComponent/Layout.cpp; sourceTree = "<group>"; };
-		93791E432C7A020C001EE46A /* image_process.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = image_process.cpp; path = src/LandscapeWander/image_process.cpp; sourceTree = "<group>"; };
-		93791E452C7A021B001EE46A /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/LandscapeStickman/MainGame.cpp; sourceTree = "<group>"; };
-		93791E462C7A021B001EE46A /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeStickman/Player.cpp; sourceTree = "<group>"; };
-		93791E472C7A021B001EE46A /* Blackhole.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Blackhole.cpp; path = src/LandscapeStickman/Blackhole.cpp; sourceTree = "<group>"; };
-		93791E482C7A021B001EE46A /* InstructionsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InstructionsScene.cpp; path = src/LandscapeStickman/InstructionsScene.cpp; sourceTree = "<group>"; };
-		93791E4D2C7A022A001EE46A /* EdgeDetectedStage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EdgeDetectedStage.cpp; path = src/LandscapeExtenders/EdgeDetectedStage.cpp; sourceTree = "<group>"; };
-		93791E4E2C7A022A001EE46A /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/LandscapeExtenders/MainGame.cpp; sourceTree = "<group>"; };
-		93791E4F2C7A022B001EE46A /* World.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = World.cpp; path = src/LandscapeExtenders/World.cpp; sourceTree = "<group>"; };
-		93791E502C7A022B001EE46A /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeExtenders/Player.cpp; sourceTree = "<group>"; };
-		93791E552C7A0239001EE46A /* FirebaseAPI.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FirebaseAPI.cpp; path = src/Firebase/FirebaseAPI.cpp; sourceTree = "<group>"; };
-		93791E572C7A0502001EE46A /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = src/Main.cpp; sourceTree = "<group>"; };
+		93B0B3EB2C84697B006DB634 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = src/Main.cpp; sourceTree = "<group>"; };
+		93B0B3ED2C846AE1006DB634 /* FirebaseAPI.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FirebaseAPI.cpp; path = src/Firebase/FirebaseAPI.cpp; sourceTree = "<group>"; };
+		93B0B3EF2C846AF7006DB634 /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/LandscapeExtenders/MainGame.cpp; sourceTree = "<group>"; };
+		93B0B3F02C846AF7006DB634 /* World.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = World.cpp; path = src/LandscapeExtenders/World.cpp; sourceTree = "<group>"; };
+		93B0B3F12C846AF7006DB634 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeExtenders/Player.cpp; sourceTree = "<group>"; };
+		93B0B3F22C846AF7006DB634 /* EdgeDetectedStage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EdgeDetectedStage.cpp; path = src/LandscapeExtenders/EdgeDetectedStage.cpp; sourceTree = "<group>"; };
+		93B0B3F72C846B0D006DB634 /* InstructionsScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InstructionsScene.cpp; path = src/LandscapeStickman/InstructionsScene.cpp; sourceTree = "<group>"; };
+		93B0B3F82C846B0E006DB634 /* Blackhole.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Blackhole.cpp; path = src/LandscapeStickman/Blackhole.cpp; sourceTree = "<group>"; };
+		93B0B3F92C846B0E006DB634 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/LandscapeStickman/Player.cpp; sourceTree = "<group>"; };
+		93B0B3FA2C846B0E006DB634 /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/LandscapeStickman/MainGame.cpp; sourceTree = "<group>"; };
+		93B0B3FF2C846B22006DB634 /* CVUtility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CVUtility.cpp; path = src/LandscapeWander/CVUtility.cpp; sourceTree = "<group>"; };
+		93B0B4012C846B35006DB634 /* fld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = fld.cpp; path = src/LandscapeWander/detector/fld.cpp; sourceTree = "<group>"; };
+		93B0B4022C846B35006DB634 /* houghp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = houghp.cpp; path = src/LandscapeWander/detector/houghp.cpp; sourceTree = "<group>"; };
+		93B0B4052C846B42006DB634 /* Layout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Layout.cpp; path = src/UIComponent/Layout.cpp; sourceTree = "<group>"; };
+		93B0B4072C846BBB006DB634 /* Bloom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Bloom.cpp; path = src/Utility/Bloom.cpp; sourceTree = "<group>"; };
+		93B0B4082C846BBB006DB634 /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = src/Utility/Animation.cpp; sourceTree = "<group>"; };
+		93B0B4092C846BBB006DB634 /* numeric.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = numeric.cpp; path = src/Utility/numeric.cpp; sourceTree = "<group>"; };
+		93B0B40D2C846BCB006DB634 /* MainGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainGame.cpp; path = src/WalkDemo/MainGame.cpp; sourceTree = "<group>"; };
+		93B0B40E2C846BCB006DB634 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/WalkDemo/Player.cpp; sourceTree = "<group>"; };
+		93B0B4112C84A69C006DB634 /* libopencv_ximgproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_ximgproc.a; path = ../../../../../../usr/local/Cellar/opencv/4.10.0_3/lib/libopencv_ximgproc.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B0B4122C84A69C006DB634 /* libopencv_ximgproc.a in Frameworks */,
 				2C5C46DF26B4F014005E8C85 /* AudioToolbox.framework in Frameworks */,
 				2C5C46E126B4F01C005E8C85 /* AVFoundation.framework in Frameworks */,
 				2C5C46E326B4F023005E8C85 /* CoreAudio.framework in Frameworks */,
@@ -148,23 +154,25 @@
 		2C1778791CE0A9D800BB8AD0 = {
 			isa = PBXGroup;
 			children = (
-				93791E572C7A0502001EE46A /* Main.cpp */,
-				93791E552C7A0239001EE46A /* FirebaseAPI.cpp */,
-				93791E4D2C7A022A001EE46A /* EdgeDetectedStage.cpp */,
-				93791E4E2C7A022A001EE46A /* MainGame.cpp */,
-				93791E502C7A022B001EE46A /* Player.cpp */,
-				93791E4F2C7A022B001EE46A /* World.cpp */,
-				93791E472C7A021B001EE46A /* Blackhole.cpp */,
-				93791E482C7A021B001EE46A /* InstructionsScene.cpp */,
-				93791E452C7A021B001EE46A /* MainGame.cpp */,
-				93791E462C7A021B001EE46A /* Player.cpp */,
-				93791E432C7A020C001EE46A /* image_process.cpp */,
-				93791E3F2C7A01F7001EE46A /* Layout.cpp */,
-				93791E392C7A01EE001EE46A /* Animation.cpp */,
-				93791E3A2C7A01EE001EE46A /* Bloom.cpp */,
-				93791E3B2C7A01EE001EE46A /* numeric.cpp */,
-				93791E362C7A01DD001EE46A /* MainGame.cpp */,
-				93791E352C7A01DD001EE46A /* Player.cpp */,
+				93B0B40D2C846BCB006DB634 /* MainGame.cpp */,
+				93B0B40E2C846BCB006DB634 /* Player.cpp */,
+				93B0B4082C846BBB006DB634 /* Animation.cpp */,
+				93B0B4072C846BBB006DB634 /* Bloom.cpp */,
+				93B0B4092C846BBB006DB634 /* numeric.cpp */,
+				93B0B4052C846B42006DB634 /* Layout.cpp */,
+				93B0B4012C846B35006DB634 /* fld.cpp */,
+				93B0B4022C846B35006DB634 /* houghp.cpp */,
+				93B0B3FF2C846B22006DB634 /* CVUtility.cpp */,
+				93B0B3F82C846B0E006DB634 /* Blackhole.cpp */,
+				93B0B3F72C846B0D006DB634 /* InstructionsScene.cpp */,
+				93B0B3FA2C846B0E006DB634 /* MainGame.cpp */,
+				93B0B3F92C846B0E006DB634 /* Player.cpp */,
+				93B0B3F22C846AF7006DB634 /* EdgeDetectedStage.cpp */,
+				93B0B3EF2C846AF7006DB634 /* MainGame.cpp */,
+				93B0B3F12C846AF7006DB634 /* Player.cpp */,
+				93B0B3F02C846AF7006DB634 /* World.cpp */,
+				93B0B3ED2C846AE1006DB634 /* FirebaseAPI.cpp */,
+				93B0B3EB2C84697B006DB634 /* Main.cpp */,
 				2C6906D72298140F00A427D0 /* engine */,
 				2C1778921CE0A9EA00BB8AD0 /* Info.plist */,
 				2C1778A21CE0B65500BB8AD0 /* icon.icns */,
@@ -185,7 +193,6 @@
 		2C1778981CE0AA7C00BB8AD0 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				2C1778991CE0AA7C00BB8AD0 /* Main.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -193,6 +200,7 @@
 		2CC7F9861F45930A0071A239 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93B0B4112C84A69C006DB634 /* libopencv_ximgproc.a */,
 				2CD8412B283263B2005013A6 /* libboost_filesystem.a */,
 				2C5C471026B4F08E005E8C85 /* libzlib.a */,
 				2C5C470D26B4F08A005E8C85 /* libopus.a */,
@@ -293,23 +301,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93791E582C7A0502001EE46A /* Main.cpp in Sources */,
-				93791E562C7A0239001EE46A /* FirebaseAPI.cpp in Sources */,
-				93791E512C7A022B001EE46A /* EdgeDetectedStage.cpp in Sources */,
-				93791E522C7A022B001EE46A /* MainGame.cpp in Sources */,
-				93791E532C7A022B001EE46A /* World.cpp in Sources */,
-				93791E542C7A022B001EE46A /* Player.cpp in Sources */,
-				93791E492C7A021B001EE46A /* MainGame.cpp in Sources */,
-				93791E4A2C7A021B001EE46A /* Player.cpp in Sources */,
-				93791E4B2C7A021B001EE46A /* Blackhole.cpp in Sources */,
-				93791E4C2C7A021B001EE46A /* InstructionsScene.cpp in Sources */,
-				93791E442C7A020C001EE46A /* image_process.cpp in Sources */,
-				93791E402C7A01F7001EE46A /* Layout.cpp in Sources */,
-				93791E3C2C7A01EE001EE46A /* Animation.cpp in Sources */,
-				93791E3D2C7A01EE001EE46A /* Bloom.cpp in Sources */,
-				93791E3E2C7A01EE001EE46A /* numeric.cpp in Sources */,
-				93791E372C7A01DD001EE46A /* Player.cpp in Sources */,
-				93791E382C7A01DD001EE46A /* MainGame.cpp in Sources */,
+				93B0B40F2C846BCB006DB634 /* MainGame.cpp in Sources */,
+				93B0B4102C846BCB006DB634 /* Player.cpp in Sources */,
+				93B0B40A2C846BBB006DB634 /* Bloom.cpp in Sources */,
+				93B0B40B2C846BBB006DB634 /* Animation.cpp in Sources */,
+				93B0B40C2C846BBB006DB634 /* numeric.cpp in Sources */,
+				93B0B4062C846B42006DB634 /* Layout.cpp in Sources */,
+				93B0B4032C846B35006DB634 /* fld.cpp in Sources */,
+				93B0B4042C846B35006DB634 /* houghp.cpp in Sources */,
+				93B0B4002C846B22006DB634 /* CVUtility.cpp in Sources */,
+				93B0B3FB2C846B0E006DB634 /* InstructionsScene.cpp in Sources */,
+				93B0B3FC2C846B0E006DB634 /* Blackhole.cpp in Sources */,
+				93B0B3FD2C846B0E006DB634 /* Player.cpp in Sources */,
+				93B0B3FE2C846B0E006DB634 /* MainGame.cpp in Sources */,
+				93B0B3F32C846AF7006DB634 /* MainGame.cpp in Sources */,
+				93B0B3F42C846AF7006DB634 /* World.cpp in Sources */,
+				93B0B3F52C846AF7006DB634 /* Player.cpp in Sources */,
+				93B0B3F62C846AF7006DB634 /* EdgeDetectedStage.cpp in Sources */,
+				93B0B3EE2C846AE1006DB634 /* FirebaseAPI.cpp in Sources */,
+				93B0B3EC2C84697B006DB634 /* Main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +475,7 @@
 					../../lib/macOS/opencv,
 					../../lib/macOS/opus,
 					../../lib/macOS/zlib,
+					/usr/local/Cellar/opencv/4.10.0_3/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -545,6 +556,7 @@
 					../../lib/macOS/opencv,
 					../../lib/macOS/opus,
 					../../lib/macOS/zlib,
+					/usr/local/Cellar/opencv/4.10.0_3/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -574,7 +586,7 @@
 				2C17787F1CE0A9D800BB8AD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		2C1778931CE0A9EA00BB8AD0 /* Build configuration list for PBXNativeTarget "empty" */ = {
 			isa = XCConfigurationList;
@@ -583,7 +595,7 @@
 				2C1778951CE0A9EA00BB8AD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

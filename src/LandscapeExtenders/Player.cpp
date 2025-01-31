@@ -1,13 +1,12 @@
 #include "Player.hpp"
 #include "../Utility/bubble.hpp"
 #include "../Utility/RunDustEffect.hpp"
+#include "../Utility/Notificator.hpp"
 
 // COMPLETE #TODO 降りている最中にジャンプできなくなる問題
 namespace LandscapeExtenders {
 
-bool CONTROLL_METHOD = true;
-
-static constexpr double gravity = 9.8;
+static constexpr double gravity = 18;
 
 static double sq(const double x) {
     return x * x;
@@ -68,9 +67,9 @@ AnimationsManager<PlayerAnimationState> Player::prepare_animation() {
 
 
 
-static int interpret_movement_direction(bool is_movable) {
+int Player::interpret_movement_direction(bool is_movable) const {
     if (not is_movable) { return 0; }
-    if (CONTROLL_METHOD) {
+    if (CONTROLL_METHOD == Player::ControllMethod::JoyCon) {
         if (const auto r = JoyCon(0)) {
             if (r.povD8() == 2) {
                 return 1;
@@ -88,8 +87,8 @@ static int interpret_movement_direction(bool is_movable) {
     return 0;
 }
 
-static bool interpret_jumping(bool is_movable) {
-    if (CONTROLL_METHOD) {
+bool Player::interpret_jumping(bool is_movable) const {
+    if (CONTROLL_METHOD == Player::ControllMethod::JoyCon) {
         if (const auto r = JoyCon(0)) {
             return (r.button1.pressed());
         }
@@ -104,6 +103,17 @@ void Player::update(Effect& effect) {
         interpret_movement_direction(is_movable()),
         interpret_jumping(is_movable())
     };
+    // 操作形態の変更
+    if (KeySemicolon_JIS.down()) {
+        CONTROLL_METHOD = (CONTROLL_METHOD == ControllMethod::JoyCon) ? ControllMethod::Key : ControllMethod::JoyCon;
+        NotificationAddon::Show(
+            (CONTROLL_METHOD == ControllMethod::JoyCon) ?
+            U"操作形態がJoy-Conに変わりました"
+            : U"操作形態がキーボードに変わりました",
+            NotificationAddon::Type::Information
+        );
+    }
+    // 動ける場合
     if (is_movable()) {
         if (input.direction == -1) {
             looking_direction_ = LD_LEFT;
@@ -193,7 +203,7 @@ void Player::on_in_air(const InputInfo& input) {
 }
 
 double Player::running_momentum_percent() const {
-    return abs(Clamp(abs(transform_.velocity.x) / move_speed_, -1.0, 1.0));
+    return abs(Clamp(abs(transform_.velocity.x) / (standard_move_speed_), -1.0, 1.0));
 }
 
 void Player::on_ground(const InputInfo& input) {
@@ -256,15 +266,20 @@ void Player::on_runnable(const InputInfo& input, Effect& effect) {
 
 void Player::on_movable(const InputInfo& input) {
     const double move_acc_coef = (is_on_ground()) ? 2 : 1;
+    if (touched_ground) {
+        constexpr double pi_4 = Math::QuarterPi;
+        const double slope = gradarg_Line(*touched_ground, input.direction);
+        move_speed_ = standard_move_speed_ * pow(2, slope/pi_4);
+    } else {
+        move_speed_ = standard_move_speed_;
+    }
     // 以下の微分方程式に基づいてプレイヤーの速度を更新する。
     // dσ = (1-σ)σdx ---> σ = 1/(1+e^{-x}) (ロジスティックシグモイド関数)
-    if (touched_ground) {
-        move_speed_ = 13 * 0.75 * pow(2, gradarg_Line(*touched_ground, input.direction));
-    }
     // 加速する時
     if (sign(transform_.velocity.x) == input.direction or sign(transform_.velocity.x) == 0) {
         double& v = transform_.velocity.x;
-        v += input.direction * move_acc_coef / (2 * move_speed_) * (sq(move_speed_) - sq(v)) * Scene::DeltaTime();
+        const double dv = input.direction * move_acc_coef / (2 * move_speed_) * (sq(move_speed_) - sq(v)) * Scene::DeltaTime();
+        v += dv;
     }
     // 減速する時
     if (sign(transform_.velocity.x) != input.direction and abs(transform_.velocity.x) > 1e-6){

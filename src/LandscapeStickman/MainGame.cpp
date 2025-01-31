@@ -3,7 +3,7 @@
 # include "../Utility/Animation.hpp"
 # include "../Utility/numeric.hpp"
 # include "../Utility/AnimationManager.hpp"
-# include "../LandscapeWander/image_process.hpp"
+# include "../LandscapeWander/detector/fld.hpp"
 
 
 namespace LandscapeStickman {
@@ -55,7 +55,7 @@ MainGame::MainGame(const InitData& init):
         collision_events.resize(image_count);
         for (const auto [index, background] : IndexedRef(backgrounds)){
             const auto& [path, alpha, beta, gamma] = stages_info[index];
-            lines_of_stages.push_back(extract_stageline_from(background, alpha, beta, gamma));
+            lines_of_stages.push_back(LandscapeWander::detector::fld(background, alpha, beta, gamma));
             background_textures.emplace_back(background);
         }
     }

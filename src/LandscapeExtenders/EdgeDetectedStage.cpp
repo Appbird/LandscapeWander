@@ -1,5 +1,5 @@
 #include "EdgeDetectedStage.hpp"
-#include "../LandscapeWander/image_process.hpp"
+#include "../LandscapeWander/detector/fld.hpp"
 
 using std::make_shared;
 
@@ -14,7 +14,7 @@ EdgeDetectedStage::EdgeDetectedStage(
     image = Image{file_path};
     landscape = Texture{image};
 
-    Array<Line> stage_line_on_photo = extract_stageline_from(image, alpha, beta, gamma);
+    Array<Line> stage_line_on_photo = LandscapeWander::detector::fld(image, alpha, beta, gamma);
     const double photo_meter_per_pixel = stage_data.area.w / image.width();
     for (Line& line : stage_line_on_photo) {
         Vec2 begin = line.begin * photo_meter_per_pixel + stage_data.area.tl();

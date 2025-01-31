@@ -5,7 +5,7 @@
 # include "../Utility/numeric.hpp"
 # include "../Utility/AnimationManager.hpp"
 # include "../UIComponent/Layout.hpp"
-# include "../LandscapeWander/image_process.hpp"
+# include "../LandscapeWander/detector/houghp.hpp"
 
 namespace WalkDemo {
 
@@ -20,7 +20,7 @@ Vec2 MainGame::scroll_offset() const {
 void MainGame::set_stage() {
     background = Image{file_path};
 
-    lines_of_stage = extract_stageline_from(background, alpha, beta, gamma);
+    lines_of_stage = LandscapeWander::detector::houghp(background, alpha, beta, gamma);
     background_texture = Texture{background};
     for (Line& line : lines_of_stage) {
         line.begin  *= photo_meter_per_pixel();
@@ -160,7 +160,7 @@ void MainGame::draw_UI() {
 }
 
 void MainGame::save_world() const {
-    Array<Line> lines_of_stage = extract_stageline_from(background, alpha, beta, gamma);
+    Array<Line> lines_of_stage = LandscapeWander::detector::houghp(background, alpha, beta, gamma);
     Image background_texture = background.cloned();
     {
         for (const Line& line : lines_of_stage) {

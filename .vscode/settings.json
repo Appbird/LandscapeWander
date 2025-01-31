@@ -91,6 +91,7 @@
         "span": "cpp",
         "*.inc": "cpp",
         "execution": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "any": "cpp"
     }
 }

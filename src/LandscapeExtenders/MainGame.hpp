@@ -10,6 +10,10 @@ namespace LandscapeExtenders {
 // #TODO 操作説明も画面下部に加える。
 // 特に、Aキー, Bキー
 
+// メタなキー
+// ;キー: JoyCon-キー操作切り替え
+// :キー: リモートの更新に追従するかどうか切り替え
+
 
 class MainGame : public App::Scene {
 public:
@@ -40,7 +44,7 @@ private:
     World world;
     RectF world_bounding_box;
     Player player;
-    double alpha = 0.5;
+    double alpha = 0.7;
     double beta = 0.5;
     double gamma = 0.5;
 
@@ -48,10 +52,9 @@ private:
     bool configure_mode = false;
     bool some_param_modified = false;
     bool already_drawn = false;
+    bool load_from_remote = true;
     
     double _camera_world_height = 30.0;
-
-    String file_path;
 
     Stopwatch game_start_stopwatch{StartImmediately::No};
     Stopwatch stop_time_stopwatch{StartImmediately::Yes};
@@ -68,12 +71,10 @@ private:
     double camera_world_height() const {
         return _camera_world_height;
     }
-    
     // ゲームが終了したかを返す。
     bool is_game_end() const {
         return gamestate == End;
     }
-    // 写真の横幅がゲーム空間の何メートルを占めるかを表す。(mを単位とする。)
     Vec2 player_inital_place() const {
         // #TODO 後でいい感じの場所に変えておく。
         return world.initial_start_point();
@@ -84,6 +85,8 @@ private:
     // 現在のスクロール量を返す。
     Vec2 scroll_offset() const;
     void set_stage();
+    void set_domestic_stage();
+
     RectF visible_region() const {
         return {
             Arg::center = scroll_offset(),

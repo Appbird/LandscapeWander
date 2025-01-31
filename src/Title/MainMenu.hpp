@@ -38,11 +38,11 @@ class TitleScene : public App::Scene {
             titles = {
                 { 
                     0xF02B4_icon,
-                    U"Stickman",
-                    U"Landscape Stickman",
-                    U"LandscapeStickman/InstructionScene",
-                    U"ワームホールがあなたの街に現れた！\n棒人間ヒーローが街を救う！",
-                    U"[スペース]: チャージ, [↑][→]: ジャンプ方向調節",
+                    U"Extenders",
+                    U"Landscape Extenders",
+                    U"LandscapeExtenders/MainGame",
+                    U"スマホ写真の投稿でどんどんステージが広がる\n2Dアクションゲーム",
+                    U"[スペース]: ジャンプ, [←][→]: ダッシュ",
                     { HSV{ 75, 0.75, 0.75 }, Palette::White, ColorF{ 1.0, 0.4 }, HSV{ 75, 0.5, 1 } }
                 },
                 { 
